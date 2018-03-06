@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -19,17 +21,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //TODO: source - https://github.com/kamalber/spring-boot-angular4-authentication
         http
+                .cors().and()
                 .authorizeRequests()
                 .antMatchers(allowedPaths).permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().fullyAuthenticated()
+                .and().logout()
+                .permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
                 .and()
-                .formLogin().loginPage("/login").permitAll()
-                //TODO: https://github.com/kamalber/spring-boot-angular4-authentication
-                .usernameParameter("username")
-                .passwordParameter("password")
-        .and()
-        .csrf().disable();
+                .httpBasic().and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
+                .csrf().disable();
 
     }
 

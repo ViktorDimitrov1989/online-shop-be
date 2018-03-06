@@ -1,13 +1,17 @@
 package com.online.shop.controller;
 
-import com.online.shop.model.user.RegisterUserBindingModel;
+import com.online.shop.dto.user.RegisterUserResponseDto;
+import com.online.shop.exception.RequestException;
+import com.online.shop.model.binding.user.RegisterUserBindingModel;
 import com.online.shop.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,12 +31,14 @@ public class UserController {
     public ResponseEntity<?> register(@Valid @RequestBody RegisterUserBindingModel registerModel,
                                       BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            //exception
+            for (FieldError err : bindingResult.getFieldErrors()) {
+                System.out.println(err.getDefaultMessage());
+            }
+
+            throw new RequestException("Passwords mismatch");
         }
 
-        //register user through the service
-
-        return null;
+        return new ResponseEntity<RegisterUserResponseDto>(this.userService.register(registerModel), HttpStatus.CREATED);
     }
 
 

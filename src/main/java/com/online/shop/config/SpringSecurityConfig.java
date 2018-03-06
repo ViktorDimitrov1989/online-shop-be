@@ -16,8 +16,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] allowedPaths =
             new String[]{"/",
-            "/register",
-            "/login"};
+            "/user/register",
+            "/user/login"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -28,7 +28,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(allowedPaths).permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and().logout()
-                .permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
+                .permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/user/logout", "POST"))
                 .and()
                 .httpBasic().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()

@@ -14,7 +14,7 @@ public @interface IsPasswordsMatching {
 
     String message() default "Passwords mismatch!";
 
-    Class<?>[] group() default  {};
+    Class<?>[] groups() default  {};
 
     Class<? extends Payload>[] payload() default {};
 

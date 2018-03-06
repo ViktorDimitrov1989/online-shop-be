@@ -1,10 +1,10 @@
 package com.online.shop.service;
 
-import com.online.shop.model.user.RegisterUserBindingModel;
-import org.springframework.stereotype.Service;
+import com.online.shop.dto.user.RegisterUserResponseDto;
+import com.online.shop.model.binding.user.RegisterUserBindingModel;
 
 public interface UserService {
 
-    void register(RegisterUserBindingModel model);
+    RegisterUserResponseDto register(RegisterUserBindingModel model);
 
 }

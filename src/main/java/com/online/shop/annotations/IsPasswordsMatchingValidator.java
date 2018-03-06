@@ -1,6 +1,6 @@
 package com.online.shop.annotations;
 
-import com.online.shop.model.user.RegisterUserBindingModel;
+import com.online.shop.model.binding.user.RegisterUserBindingModel;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

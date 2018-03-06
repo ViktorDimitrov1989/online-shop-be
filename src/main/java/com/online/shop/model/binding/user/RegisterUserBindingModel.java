@@ -1,4 +1,4 @@
-package com.online.shop.model.user;
+package com.online.shop.model.binding.user;
 
 import com.online.shop.annotations.IsPasswordsMatching;
 
@@ -19,8 +19,6 @@ public class RegisterUserBindingModel {
     private String email;
     @Size(min = 5, message = "Phone number is too short")
     private String phoneNumber;
-
-
 
     private String confirmPassword;
 

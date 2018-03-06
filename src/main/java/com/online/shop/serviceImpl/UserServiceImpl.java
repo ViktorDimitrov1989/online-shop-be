@@ -1,9 +1,10 @@
 package com.online.shop.serviceImpl;
 
+import com.online.shop.dto.user.RegisterUserResponseDto;
 import com.online.shop.entity.Role;
 import com.online.shop.entity.User;
 import com.online.shop.enums.RoleType;
-import com.online.shop.model.user.RegisterUserBindingModel;
+import com.online.shop.model.binding.user.RegisterUserBindingModel;
 import com.online.shop.repository.UserRepository;
 import com.online.shop.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService {
     private ModelMapper modelMapper;
 
     @Override
-    public void register(RegisterUserBindingModel registrationModel) {
+    public RegisterUserResponseDto register(RegisterUserBindingModel registrationModel) {
         User user = this.modelMapper.map(registrationModel, User.class);
         String encryptedPassword = this.bCryptPasswordEncoder.encode(registrationModel.getPassword());
         user.setPassword(encryptedPassword);
@@ -38,6 +39,8 @@ public class UserServiceImpl implements UserService {
 
         user.getAuthorities().add(role);
 
-        this.userRepository.save(user);
+        RegisterUserResponseDto resp = this.modelMapper.map(this.userRepository.save(user), RegisterUserResponseDto.class);
+
+        return resp;
     }
 }

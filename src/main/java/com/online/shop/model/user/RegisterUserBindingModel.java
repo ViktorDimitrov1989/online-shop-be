@@ -7,10 +7,21 @@ import javax.validation.constraints.Size;
 @IsPasswordsMatching
 public class RegisterUserBindingModel {
 
-    @Size(min = 5)
+    @Size(min = 5, message = "Username is too short.")
     private String username;
-    @Size(min = 5)
+    @Size(min = 5, message = "Password is too short.")
     private String password;
+    @Size(min = 5, message = "First name is too short")
+    private String firstName;
+    @Size(min = 5, message = "Last name is too short")
+    private String lastName;
+    @Size(min = 5, message = "Email is too short")
+    private String email;
+    @Size(min = 5, message = "Phone number is too short")
+    private String phoneNumber;
+
+
+
     private String confirmPassword;
 
     public RegisterUserBindingModel() {
@@ -38,5 +49,37 @@ public class RegisterUserBindingModel {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

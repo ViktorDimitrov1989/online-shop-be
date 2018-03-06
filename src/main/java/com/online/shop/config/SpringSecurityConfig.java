@@ -22,7 +22,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(allowedPaths).permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("/login").permitAll()
+                //TODO: https://github.com/kamalber/spring-boot-angular4-authentication
+                .usernameParameter("username")
+                .passwordParameter("password")
+        .and()
+        .csrf().disable();
 
     }
 

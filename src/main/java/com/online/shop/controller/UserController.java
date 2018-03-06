@@ -2,6 +2,7 @@ package com.online.shop.controller;
 
 import com.online.shop.dto.user.RegisterUserResponseDto;
 import com.online.shop.exception.RequestException;
+import com.online.shop.model.binding.user.LoginUserBindingModel;
 import com.online.shop.model.binding.user.RegisterUserBindingModel;
 import com.online.shop.service.UserService;
 import org.slf4j.Logger;
@@ -9,12 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @CrossOrigin
@@ -41,16 +44,16 @@ public class UserController {
         return new ResponseEntity<RegisterUserResponseDto>(this.userService.register(registerModel), HttpStatus.CREATED);
     }
 
-
-
-
     @ResponseBody
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public String register(){
+    @RequestMapping(path = "/login", method = RequestMethod.GET)
+    public UserDetails login(@RequestBody LoginUserBindingModel userModel, @RequestParam(required = false) String error){
+        System.out.println("here");
 
-        //register user through the service
+        if(error != null){
+            throw new RequestException("Invalid credentials");
+        }
 
-        return null;
+        return this.userService.loadUserByUsername(userModel.getUsername());
     }
 
 

@@ -4,11 +4,14 @@ import com.online.shop.dto.user.RegisterUserResponseDto;
 import com.online.shop.entity.Role;
 import com.online.shop.entity.User;
 import com.online.shop.enums.RoleType;
+import com.online.shop.exception.RequestException;
 import com.online.shop.model.binding.user.RegisterUserBindingModel;
 import com.online.shop.repository.UserRepository;
 import com.online.shop.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +45,16 @@ public class UserServiceImpl implements UserService {
         RegisterUserResponseDto resp = this.modelMapper.map(this.userRepository.save(user), RegisterUserResponseDto.class);
 
         return resp;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = this.userRepository.findOneByUsername(username);
+
+        if(user == null){
+            throw new UsernameNotFoundException("Invalid Credentials.");
+        }
+
+        return user;
     }
 }

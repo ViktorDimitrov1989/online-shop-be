@@ -1,8 +1,11 @@
 package com.online.shop.config;
 
 
+import com.online.shop.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -19,6 +22,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             "/user/register",
             "/user/login"};
 
+    @Autowired
+    private UserService userService;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(this.userService).passwordEncoder(getBCryptPasswordEncoder());
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //TODO: source - https://github.com/kamalber/spring-boot-angular4-authentication
@@ -27,6 +38,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(allowedPaths).permitAll()
                 .anyRequest().fullyAuthenticated()
+                .and()
+                .formLogin().loginPage("/user/login").failureUrl("/login?error")
+                .usernameParameter("username").passwordParameter("password")
                 .and().logout()
                 .permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/user/logout", "POST"))
                 .and()

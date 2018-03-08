@@ -10,17 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
-@Controller
-@CrossOrigin
+@CrossOrigin//(origins = "http://localhost:4200")
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -29,7 +26,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @ResponseBody
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(@Valid @RequestBody RegisterUserBindingModel registerModel,
                                       BindingResult bindingResult){
@@ -44,16 +40,12 @@ public class UserController {
         return new ResponseEntity<RegisterUserResponseDto>(this.userService.register(registerModel), HttpStatus.CREATED);
     }
 
-    @ResponseBody
-    @RequestMapping(path = "/login", method = RequestMethod.GET)
-    public UserDetails login(@RequestBody LoginUserBindingModel userModel, @RequestParam(required = false) String error){
-        System.out.println("here");
+    @RequestMapping(path = "/login", method = RequestMethod.POST)
+    public ResponseEntity<?> login(@RequestBody LoginUserBindingModel model){
 
-        if(error != null){
-            throw new RequestException("Invalid credentials");
-        }
+        RegisterUserResponseDto userProfileModel = this.userService.login(model);
 
-        return this.userService.loadUserByUsername(userModel.getUsername());
+        return new ResponseEntity<RegisterUserResponseDto>(userProfileModel, HttpStatus.CREATED);
     }
 
 

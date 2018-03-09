@@ -7,8 +7,10 @@ import com.online.shop.enums.RoleType;
 import com.online.shop.exception.RequestException;
 import com.online.shop.model.binding.user.LoginUserBindingModel;
 import com.online.shop.model.binding.user.RegisterUserBindingModel;
+import com.online.shop.repository.RoleRepository;
 import com.online.shop.repository.UserRepository;
 import com.online.shop.service.UserService;
+import com.online.shop.util.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +29,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -44,8 +48,12 @@ public class UserServiceImpl implements UserService {
         user.setEnabled(true);
         user.setCredentialsNonExpired(true);
 
-        Role role = new Role();
-        role.setAuthority(RoleType.USER.name());
+        Role role = this.roleRepository.findByAuthority(RoleType.USER.name());
+
+        if(role == null){
+            role = new Role();
+            role.setAuthority(RoleType.USER.name());
+        }
 
         user.getAuthorities().add(role);
 
@@ -59,7 +67,7 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findOneByUsername(username);
 
         if(user == null){
-            throw new UsernameNotFoundException("Invalid Credentials.");
+            throw new UsernameNotFoundException(ResponseMessageConstants.INVALID_CREDENTIALS);
         }
 
         return user;
@@ -69,8 +77,8 @@ public class UserServiceImpl implements UserService {
     public RegisterUserResponseDto login(LoginUserBindingModel loginModel) {
         User user = this.userRepository.findOneByEmail(loginModel.getEmail());
 
-        if (!this.bCryptPasswordEncoder.matches(loginModel.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException();
+        if (user == null || !this.bCryptPasswordEncoder.matches(loginModel.getPassword(), user.getPassword())) {
+            throw new RequestException(ResponseMessageConstants.INVALID_CREDENTIALS);
         }
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), null,

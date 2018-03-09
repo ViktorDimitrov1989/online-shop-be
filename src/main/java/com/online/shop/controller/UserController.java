@@ -5,6 +5,8 @@ import com.online.shop.exception.RequestException;
 import com.online.shop.model.binding.user.LoginUserBindingModel;
 import com.online.shop.model.binding.user.RegisterUserBindingModel;
 import com.online.shop.service.UserService;
+import com.online.shop.util.Response;
+import com.online.shop.util.ResponseMessageConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,25 +29,27 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterUserBindingModel registerModel,
+    public ResponseEntity<Response> register(@Valid @RequestBody RegisterUserBindingModel registerModel,
                                       BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             for (FieldError err : bindingResult.getFieldErrors()) {
                 System.out.println(err.getDefaultMessage());
             }
 
-            throw new RequestException("Passwords mismatch");
+            throw new RequestException(ResponseMessageConstants.PASSWORDS_MISMATCH);
         }
 
-        return new ResponseEntity<RegisterUserResponseDto>(this.userService.register(registerModel), HttpStatus.CREATED);
+        RegisterUserResponseDto userProfileModel = this.userService.register(registerModel);
+
+        return new ResponseEntity<Response>(new Response(ResponseMessageConstants.REGISTER_SUCCESS, userProfileModel), HttpStatus.CREATED);
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> login(@RequestBody LoginUserBindingModel model){
+    public ResponseEntity<Response> login(@RequestBody LoginUserBindingModel model){
 
         RegisterUserResponseDto userProfileModel = this.userService.login(model);
 
-        return new ResponseEntity<RegisterUserResponseDto>(userProfileModel, HttpStatus.CREATED);
+        return new ResponseEntity<Response>(new Response(ResponseMessageConstants.LOGIN_SUCCESS, userProfileModel), HttpStatus.CREATED);
     }
 
 

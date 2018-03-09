@@ -4,7 +4,6 @@ import java.util.List;
 
 public class RegisterUserResponseDto {
 
-    private String username;
     private String firstName;
     private String lastName;
     private String email;
@@ -12,14 +11,6 @@ public class RegisterUserResponseDto {
     private List<String> roles;
 
     public RegisterUserResponseDto() {
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getFirstName() {

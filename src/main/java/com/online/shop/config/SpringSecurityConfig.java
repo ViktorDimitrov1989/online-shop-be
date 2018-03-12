@@ -3,7 +3,6 @@ package com.online.shop.config;
 
 import com.online.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,12 +15,20 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+
     private UserService userService;
+
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    public SpringSecurityConfig(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userService = userService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(this.userService).passwordEncoder(getBCryptPasswordEncoder());
+        auth.userDetailsService(this.userService).passwordEncoder(this.bCryptPasswordEncoder);
     }
 
     @Override
@@ -49,8 +56,4 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    @Bean
-    public BCryptPasswordEncoder getBCryptPasswordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 }

@@ -27,16 +27,24 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+
     private UserRepository userRepository;
-    @Autowired
+
     private RoleRepository roleRepository;
 
-    @Autowired
+
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
+
     private ModelMapper modelMapper;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public RegisterUserResponseDto register(RegisterUserBindingModel registrationModel) {

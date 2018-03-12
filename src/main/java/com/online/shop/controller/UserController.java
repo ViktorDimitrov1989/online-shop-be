@@ -25,8 +25,12 @@ public class UserController {
 
     public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Autowired
     private UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public ResponseEntity<Response> register(@Valid @RequestBody RegisterUserBindingModel registerModel,

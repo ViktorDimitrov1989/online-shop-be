@@ -23,14 +23,4 @@ public class ShopApplication {
 		SpringApplication.run(ShopApplication.class, args);
 	}
 
-	@Bean
-	public ModelMapper getModelMapper(){
-		return new ModelMapper();
-	}
-
-	@Bean
-	public BCryptPasswordEncoder getBCryptPasswordEncoder(){
-		return new BCryptPasswordEncoder();
-	}
-
 }

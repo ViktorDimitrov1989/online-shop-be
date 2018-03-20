@@ -1,5 +1,7 @@
 package com.online.shop.annotations;
 
+import com.online.shop.util.ResponseMessageConstants;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.ElementType;
@@ -12,7 +14,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = IsPasswordsMatchingValidator.class)
 public @interface IsPasswordsMatching {
 
-    String message() default "Passwords mismatch!";
+    String message() default ResponseMessageConstants.PASSWORDS_MISMATCH;
 
     Class<?>[] groups() default  {};
 

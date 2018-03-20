@@ -1,14 +1,16 @@
 package com.online.shop.serviceImpl;
 
 import com.online.shop.dto.user.RegisterUserResponseDto;
+import com.online.shop.entity.Address;
 import com.online.shop.entity.Role;
 import com.online.shop.entity.User;
 import com.online.shop.enums.RoleType;
 import com.online.shop.exception.RequestException;
 import com.online.shop.model.binding.user.LoginUserBindingModel;
 import com.online.shop.model.binding.user.RegisterUserBindingModel;
-import com.online.shop.repository.RoleRepository;
 import com.online.shop.repository.UserRepository;
+import com.online.shop.service.AddressService;
+import com.online.shop.service.RoleService;
 import com.online.shop.service.UserService;
 import com.online.shop.util.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
@@ -21,33 +23,48 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-
     private UserRepository userRepository;
 
-    private RoleRepository roleRepository;
+    private RoleService roleService;
 
+    private AddressService addressService;
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
 
     private ModelMapper modelMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository,
+                           RoleService roleService,
+                           AddressService addressService,
+                           BCryptPasswordEncoder bCryptPasswordEncoder,
+                           ModelMapper modelMapper) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.roleService = roleService;
+        this.addressService = addressService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.modelMapper = modelMapper;
     }
 
     @Override
     public RegisterUserResponseDto register(RegisterUserBindingModel registrationModel) {
+
+        if(this.userRepository.findOneByEmail(registrationModel.getEmail()) != null){
+            throw new RequestException(ResponseMessageConstants.EMAIL_ALREADY_TAKEN);
+        }
+
+        if(this.userRepository.findOneByPhoneNumber(registrationModel.getPhoneNumber()) != null){
+            throw new RequestException(ResponseMessageConstants.PHONE_NUMBER_ALREADY_TAKEN);
+        }
+
+
         User user = this.modelMapper.map(registrationModel, User.class);
         String encryptedPassword = this.bCryptPasswordEncoder.encode(registrationModel.getPassword());
         user.setPassword(encryptedPassword);
@@ -55,24 +72,32 @@ public class UserServiceImpl implements UserService {
         user.setAccountNonLocked(true);
         user.setEnabled(true);
         user.setCredentialsNonExpired(true);
+        user.setRegisterDate(new Date());
 
-        Role role = this.roleRepository.findByAuthority(RoleType.USER.name());
+        Role role = this.roleService.findRoleByAuthority(RoleType.USER.name());
+
+        Address addressToSave = new Address(registrationModel.getAdress(), registrationModel.getPostCode(), registrationModel.getCity(), registrationModel.getStreet());
 
         if(role == null){
             role = new Role();
-            role.setAuthority(RoleType.USER.name());
+            role.setAuthority(RoleType.USER);
         }
 
         user.getAuthorities().add(role);
+        user.setAddress(addressToSave);
 
-        RegisterUserResponseDto resp = this.modelMapper.map(this.userRepository.save(user), RegisterUserResponseDto.class);
+        User resUser = this.userRepository.save(user);
 
-        return resp;
+        RegisterUserResponseDto respUser = this.modelMapper.map(resUser, RegisterUserResponseDto.class);
+
+        respUser.setRoles(user.getAuthorities().stream().map(Role::getAuthority).collect(Collectors.toList()));
+
+        return respUser;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = this.userRepository.findOneByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = this.userRepository.findOneByEmail(email);
 
         if(user == null){
             throw new UsernameNotFoundException(ResponseMessageConstants.INVALID_CREDENTIALS);
@@ -94,16 +119,12 @@ public class UserServiceImpl implements UserService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        RegisterUserResponseDto userProfileModel = this.modelMapper.map(user, RegisterUserResponseDto.class);
+        RegisterUserResponseDto respUser = this.modelMapper.map(user, RegisterUserResponseDto.class);
 
-        if (user.getAuthorities().size() > 0) {
-            List<String> roles = user.getAuthorities().stream().map(Role::getAuthority).collect(Collectors.toList());
+        List<String> roles = user.getAuthorities().stream().map(Role::getAuthority).collect(Collectors.toList());
+        respUser.setRoles(roles);
 
-            userProfileModel.setRoles(roles);
-        }
-
-        return userProfileModel;
+        return respUser;
     }
-
 
 }

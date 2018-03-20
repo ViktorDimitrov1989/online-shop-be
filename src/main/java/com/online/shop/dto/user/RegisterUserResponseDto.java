@@ -1,5 +1,7 @@
 package com.online.shop.dto.user;
 
+import com.online.shop.dto.address.AddressResponseDto;
+
 import java.util.List;
 
 public class RegisterUserResponseDto {
@@ -9,6 +11,7 @@ public class RegisterUserResponseDto {
     private String email;
     private String phoneNumber;
     private List<String> roles;
+    private AddressResponseDto address;
 
     public RegisterUserResponseDto() {
     }
@@ -51,5 +54,13 @@ public class RegisterUserResponseDto {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public AddressResponseDto getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressResponseDto address) {
+        this.address = address;
     }
 }

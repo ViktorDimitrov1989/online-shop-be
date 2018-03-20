@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -19,10 +18,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private CustomLogoutSuccessHandler logoutSuccessHandler;
+
     @Autowired
-    public SpringSecurityConfig(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public SpringSecurityConfig(UserService userService,
+                                BCryptPasswordEncoder bCryptPasswordEncoder,
+                                CustomLogoutSuccessHandler logoutSuccessHandler) {
         this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.logoutSuccessHandler = logoutSuccessHandler;
     }
 
     @Override
@@ -35,10 +39,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/", "/user/register","/user/login").permitAll()
+                .antMatchers("/", "/auth/register", "/auth/login", "/auth/logout").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin().loginPage("/login").permitAll()
+                /*.and()
+                .formLogin().loginPage("/auth/login1").permitAll()
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .and()
@@ -46,9 +50,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMeCookieName("RememberMe")
                 .rememberMeParameter("rememberMe")
                 .key("Taina")
-                .tokenValiditySeconds(604800)
-                .and().logout()
-                .permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/user/logout", "POST"))
+                .tokenValiditySeconds(604800)*/
+                .and()
+                .logout().logoutSuccessHandler(this.logoutSuccessHandler).permitAll()
                 .and()
                 .httpBasic().and()
                 .csrf().disable();

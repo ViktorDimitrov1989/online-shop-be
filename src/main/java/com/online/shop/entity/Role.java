@@ -1,5 +1,6 @@
 package com.online.shop.entity;
 
+import com.online.shop.enums.RoleType;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -12,7 +13,10 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String authority;
+
+    @Column(name = "authority", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private RoleType authority;
 
     public long getId() {
         return id;
@@ -24,10 +28,10 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return authority;
+        return authority.name();
     }
 
-    public void setAuthority(String authority) {
+    public void setAuthority(RoleType authority) {
         this.authority = authority;
     }
 }

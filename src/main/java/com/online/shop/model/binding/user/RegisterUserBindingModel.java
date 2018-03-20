@@ -2,35 +2,48 @@ package com.online.shop.model.binding.user;
 
 import com.online.shop.annotations.IsPasswordsMatching;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @IsPasswordsMatching
 public class RegisterUserBindingModel {
 
-    @Size(min = 5, message = "Username is too short.")
-    private String username;
-    @Size(min = 5, message = "Password is too short.")
+    @NotNull(message = "Password cant be empty")
+    @Size(min = 8, message = "Password is too short.")
     private String password;
-    @Size(min = 5, message = "First name is too short")
+    
+    @NotNull(message = "First name cant be empty")
+    @Size(min = 3, message = "First name is too short")
     private String firstName;
-    @Size(min = 5, message = "Last name is too short")
+
+    @NotNull(message = "Last name cant be empty")
+    @Size(min = 3, message = "Last name is too short")
     private String lastName;
+
+    @NotNull(message = "Email cant be empty")
     @Size(min = 5, message = "Email is too short")
     private String email;
+
+    @NotNull(message = "Phone number cant be empty")
     @Size(min = 5, message = "Phone number is too short")
     private String phoneNumber;
 
+    @NotNull(message = "Confirm password cant be empty")
     private String confirmPassword;
 
+    @NotNull(message = "City can't be empty.")
+    private String city;
+
+    private Integer postCode;
+
+    @NotNull(message = "Street can't be empty.")
+    private String street;
+
+    @NotNull(message = "Address can't be empty.")
+    private String adress;
+
+
     public RegisterUserBindingModel() {
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {
@@ -79,5 +92,38 @@ public class RegisterUserBindingModel {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Integer getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(Integer postCode) {
+        this.postCode = postCode;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 }

@@ -1,13 +1,16 @@
 package com.online.shop.service;
-import com.online.shop.dto.user.RegisterUserResponseDto;
+import com.online.shop.dto.user.UserResponseDto;
 import com.online.shop.model.binding.user.LoginUserBindingModel;
 import com.online.shop.model.binding.user.RegisterUserBindingModel;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
+
 public interface UserService extends UserDetailsService {
 
-    RegisterUserResponseDto register(RegisterUserBindingModel model);
+    UserResponseDto register(RegisterUserBindingModel model);
 
-    RegisterUserResponseDto login(LoginUserBindingModel model);
+    UserResponseDto login(LoginUserBindingModel model);
 
+    List<UserResponseDto> findAllUsers();
 }

@@ -15,8 +15,7 @@ public class Role implements GrantedAuthority {
 
 
     @Column(name = "authority", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private RoleType authority;
+    private String authority;
 
     public long getId() {
         return id;
@@ -28,10 +27,10 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return authority.name();
+        return authority;
     }
 
-    public void setAuthority(RoleType authority) {
+    public void setAuthority(String authority) {
         this.authority = authority;
     }
 }

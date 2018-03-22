@@ -10,6 +10,7 @@ public final class ResponseMessageConstants {
     public static final String EMAIL_ALREADY_TAKEN = "Има потребител регистриран с този имейл адрес.";
     public static final String PHONE_NUMBER_ALREADY_TAKEN = "Има потребител регистриран с този телефонен номер.";
 
+    public static final String FORBIDDEN = "Нямате права да достъпвате тази фунционалност.";
 
     private ResponseMessageConstants(){}
 }

@@ -1,4 +1,4 @@
-package com.online.shop.config;
+package com.online.shop.config.handlers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;

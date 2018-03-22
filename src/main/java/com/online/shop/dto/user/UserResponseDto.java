@@ -4,8 +4,9 @@ import com.online.shop.dto.address.AddressResponseDto;
 
 import java.util.List;
 
-public class RegisterUserResponseDto {
+public class UserResponseDto {
 
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -13,7 +14,7 @@ public class RegisterUserResponseDto {
     private List<String> roles;
     private AddressResponseDto address;
 
-    public RegisterUserResponseDto() {
+    public UserResponseDto() {
     }
 
     public String getFirstName() {
@@ -62,5 +63,13 @@ public class RegisterUserResponseDto {
 
     public void setAddress(AddressResponseDto address) {
         this.address = address;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

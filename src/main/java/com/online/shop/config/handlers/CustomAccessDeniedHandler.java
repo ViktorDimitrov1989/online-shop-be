@@ -1,6 +1,6 @@
 package com.online.shop.config.handlers;
 import com.online.shop.exception.RequestException;
-import com.online.shop.util.ResponseMessageConstants;
+import com.online.shop.response.ResponseMessageConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

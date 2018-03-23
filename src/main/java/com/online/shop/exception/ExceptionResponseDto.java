@@ -1,7 +1,5 @@
 package com.online.shop.exception;
 
-import com.online.shop.util.Response;
-
 public class ExceptionResponseDto {
 
     private String message;

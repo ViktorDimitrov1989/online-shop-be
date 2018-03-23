@@ -1,5 +1,7 @@
 package com.online.shop.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,12 +12,20 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class WebMvcConfig {
 
+
+    private String clientUrl;
+
+    @Autowired
+    public WebMvcConfig(@Value("${clientUrl}") String clientUrl) {
+        this.clientUrl = clientUrl;
+    }
+
     @Bean
     public FilterRegistrationBean corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:4200");
+        config.addAllowedOrigin(this.clientUrl);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
@@ -24,4 +34,11 @@ public class WebMvcConfig {
         return bean;
     }
 
+    public String getClientUrl() {
+        return clientUrl;
+    }
+
+    public void setClientUrl(String clientUrl) {
+        this.clientUrl = clientUrl;
+    }
 }

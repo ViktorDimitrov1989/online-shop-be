@@ -3,7 +3,7 @@ package com.online.shop.config;
 
 import com.online.shop.config.handlers.CustomAccessDeniedHandler;
 import com.online.shop.config.handlers.CustomLogoutSuccessHandler;
-import com.online.shop.service.UserService;
+import com.online.shop.areas.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,7 +30,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public SpringSecurityConfig(UserService userService,
                                 BCryptPasswordEncoder bCryptPasswordEncoder,
-                                CustomLogoutSuccessHandler logoutSuccessHandler, CustomAccessDeniedHandler customAccessDeniedHandler) {
+                                CustomLogoutSuccessHandler logoutSuccessHandler,
+                                CustomAccessDeniedHandler customAccessDeniedHandler) {
         this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.logoutSuccessHandler = logoutSuccessHandler;

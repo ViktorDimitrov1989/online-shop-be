@@ -6,6 +6,7 @@ import com.online.shop.areas.users.services.UserService;
 import com.online.shop.response.Response;
 import com.online.shop.response.ResponseMessageConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,12 +54,12 @@ public class AdminUserController {
         return new ResponseEntity<>(new Response(ResponseMessageConstants.ADMIN_PRIVILЕGES_TAKEN, respUser), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/all", method = RequestMethod.GET)
-    public ResponseEntity<Response> getAllUsers(HttpSession httpSession){
+    @RequestMapping(path = "/get", params = { "page", "size" }, method = RequestMethod.GET)
+    public ResponseEntity<Response> getAllUsers(HttpSession httpSession, @RequestParam("page") int page, @RequestParam("size") int size){
 
         Long loggedUserId = Long.parseLong(httpSession.getAttribute("loggedUserId").toString());
 
-        List<UserResponseDto> users = this.userService.findAllUsers(loggedUserId);
+        Page<UserResponseDto> users = this.userService.findAllUsers(loggedUserId, page, size);
 
         return new ResponseEntity<>(new Response("", users), HttpStatus.OK);
     }

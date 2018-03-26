@@ -16,6 +16,7 @@ import com.online.shop.response.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -133,8 +134,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponseDto> findAllUsers(Long loggedUserId) {
-        List<User> users = this.userRepository.findAll();
+    public Page<UserResponseDto> findAllUsers(Long loggedUserId, int page, int size) {
+        Pageable pageCount = PageRequest.of(page, size, Sort.Direction.ASC, "id");
+
+        Page<User> users = this.userRepository.findAll(pageCount);
 
         List<UserResponseDto> resp = new ArrayList<>();
 
@@ -151,7 +154,9 @@ public class UserServiceImpl implements UserService {
             resp.add(respUser);
         }
 
-        return resp;
+        Page<UserResponseDto> respPage = new PageImpl<>(resp, pageCount, this.userRepository.count());
+
+        return respPage;
     }
 
     @Override

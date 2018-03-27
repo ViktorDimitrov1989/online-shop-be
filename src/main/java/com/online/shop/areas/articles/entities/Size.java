@@ -3,8 +3,8 @@ package com.online.shop.areas.articles.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "brands")
-public class Brand {
+@Table(name = "sizes")
+public class Size {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,10 +13,7 @@ public class Brand {
     @Column(name = "name", unique = true)
     private String name;
 
-    @Column(name = "description")
-    private String description;
-
-    public Brand() {
+    public Size() {
     }
 
     public long getId() {
@@ -33,13 +30,5 @@ public class Brand {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

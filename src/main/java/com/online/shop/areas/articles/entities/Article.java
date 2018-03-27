@@ -12,7 +12,7 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "description")
@@ -35,11 +35,17 @@ public class Article {
     @Column(name = "is_available")
     private boolean isAvailable;
 
-    @Column(name = "sizes")
-    private Set<String> sizes;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "articles_sizes",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "size_id"))
+    private Set<Size> sizes;
 
-    @Column(name = "colors")
-    private Set<String> colors;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "articles_colors",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "color_id"))
+    private Set<Color> colors;
 
     public Article() {
     }
@@ -100,19 +106,19 @@ public class Article {
         isAvailable = available;
     }
 
-    public Set<String> getSizes() {
+    public Set<Size> getSizes() {
         return sizes;
     }
 
-    public void setSizes(Set<String> sizes) {
+    public void setSizes(Set<Size> sizes) {
         this.sizes = sizes;
     }
 
-    public Set<String> getColors() {
+    public Set<Color> getColors() {
         return colors;
     }
 
-    public void setColors(Set<String> colors) {
+    public void setColors(Set<Color> colors) {
         this.colors = colors;
     }
 

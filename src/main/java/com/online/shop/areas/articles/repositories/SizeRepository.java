@@ -1,12 +1,12 @@
 package com.online.shop.areas.articles.repositories;
 
-import com.online.shop.areas.articles.entities.Brand;
+import com.online.shop.areas.articles.entities.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BrandRepository extends JpaRepository<Brand, Long> {
+public interface SizeRepository extends JpaRepository<Size, Long> {
 
-    Brand findOneByName(String name);
+    Size findOneByName(String name);
 
 }

@@ -1,10 +1,11 @@
 package com.online.shop.areas.articles.enums;
 
-public enum Gender {
-    BOYS,
-    GIRLS;
+public enum Status {
+    PROMO,
+    REGULAR,
+    SALE;
 
-    Gender() {
+    Status() {
     }
 
     public static boolean isPresent(String value){

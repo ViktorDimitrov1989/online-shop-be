@@ -20,6 +20,14 @@ public final class ResponseMessageConstants {
     public static final String NOT_ADMIN = "Потребителя не е администратор.";
     public static final String UNBLOCKED = "Потребителския акаунт е отблокиран.";
     public static final String ACCOUNT_IS_LOCKED = "Този акаунт е заключен.";
+    public static final String EXISTING_BRAND_NAME = "Марка с това име вече съществува.";
+    public static final String CREATE_BRAND_SUCCESS = "Марката е създадена успешно.";
+    public static final String CREATE_CATEGORY_SUCCESS = "Категорията е създадена успешно.";
+    public static final String EXISTING_CATEGORY = "Категория с това име вече съществува.";
+    public static final String INVALID_SEASON = "Невалиден сезон.";
+    public static final String INVALID_GENDER = "Невалиден пол.";
+    public static final String CREATE_ARTICLE_SUCCESS = "Артикула е създаден успешно.";
+    public static final String INVALID_BRAND_NAME = "Невалидно име на марка.";
 
 
     private ResponseMessageConstants(){}

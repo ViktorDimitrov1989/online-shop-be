@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.Set;
@@ -37,7 +38,8 @@ public class AdminArticleController {
     }
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public ResponseEntity<Response> register(@Valid @RequestBody CreateArticleBindingModel createArticleBindingModel,
+    public ResponseEntity<Response> register(@Valid @RequestParam CreateArticleBindingModel createArticleBindingModel,
+                                             @RequestParam(required = true) MultipartFile photo,
                                              BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new RequestException(ErrorMessageHelper.formatMessage(bindingResult.getFieldErrors()), HttpStatus.BAD_REQUEST);

@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
     public Page<UserResponseDto> findAllUsers(Long loggedUserId, int page, int size) {
         Pageable pageCount = PageRequest.of(page, size, Sort.Direction.ASC, "id");
 
-        Page<User> users = this.userRepository.findAll(pageCount);
+        Page<User> users = this.userRepository.findAllByIdNot(pageCount,loggedUserId);
 
         List<UserResponseDto> resp = new ArrayList<>();
 

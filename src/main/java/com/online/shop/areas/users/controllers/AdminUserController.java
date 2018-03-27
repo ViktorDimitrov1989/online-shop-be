@@ -1,6 +1,4 @@
 package com.online.shop.areas.users.controllers;
-
-
 import com.online.shop.areas.users.dto.user.UserResponseDto;
 import com.online.shop.areas.users.services.UserService;
 import com.online.shop.response.Response;
@@ -10,9 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @CrossOrigin
 @RestController

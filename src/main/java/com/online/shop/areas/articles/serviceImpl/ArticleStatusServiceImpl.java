@@ -1,5 +1,6 @@
 package com.online.shop.areas.articles.serviceImpl;
 import com.online.shop.areas.articles.dto.articleStatus.ArticleStatusResponseDto;
+import com.online.shop.areas.articles.entities.Article;
 import com.online.shop.areas.articles.entities.ArticleStatus;
 import com.online.shop.areas.articles.repositories.ArticleStatusRepository;
 import com.online.shop.areas.articles.services.ArticleStatusService;
@@ -20,12 +21,9 @@ public class ArticleStatusServiceImpl implements ArticleStatusService {
 
 
     @Override
-    public ArticleStatusResponseDto createArticleStatus(ArticleStatus articleStatus) {
-
+    public ArticleStatus createArticleStatus(ArticleStatus articleStatus) {
         ArticleStatus createdStatus = this.articleStatusRepository.save(articleStatus);
 
-        ArticleStatusResponseDto resp = this.modelMapper.map(createdStatus, ArticleStatusResponseDto.class);
-
-        return resp;
+        return createdStatus;
     }
 }

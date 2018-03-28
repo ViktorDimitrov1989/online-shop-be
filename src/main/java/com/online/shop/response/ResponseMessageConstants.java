@@ -28,6 +28,8 @@ public final class ResponseMessageConstants {
     public static final String INVALID_GENDER = "Невалиден пол.";
     public static final String CREATE_ARTICLE_SUCCESS = "Артикула е създаден успешно.";
     public static final String INVALID_BRAND_NAME = "Невалидно име на марка.";
+    public static final String INVALID_SIZE = "Невалиден размер.";
+    public static final String INVALID_CATEGORY_ID = "Невалидно ID на категория.";
 
 
     private ResponseMessageConstants(){}

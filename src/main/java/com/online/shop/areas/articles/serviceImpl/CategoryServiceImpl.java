@@ -9,9 +9,13 @@ import com.online.shop.areas.articles.services.CategoryService;
 import com.online.shop.exception.RequestException;
 import com.online.shop.response.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -24,6 +28,17 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper) {
         this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public Category findCategoryById(Long id) {
+        Category category = this.categoryRepository.findOneById(id);
+
+        if(category == null){
+            throw new RequestException(ResponseMessageConstants.INVALID_CATEGORY_ID,HttpStatus.BAD_REQUEST);
+        }
+
+        return category;
     }
 
     @Override
@@ -48,5 +63,14 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryResponseDto createdCategoryResponse = this.modelMapper.map(createdCategory, CategoryResponseDto.class);
 
         return createdCategoryResponse;
+    }
+
+    @Override
+    public List<CategoryResponseDto> findAllCategories() {
+        List<Category> categories = this.categoryRepository.findAll();
+
+        Type targetListType = new TypeToken<List<CategoryResponseDto>>() {}.getType();
+
+        return this.modelMapper.map(categories, targetListType);
     }
 }

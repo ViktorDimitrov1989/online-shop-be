@@ -1,6 +1,7 @@
 package com.online.shop.areas.articles.controllers;
 
 import com.online.shop.areas.articles.common.ArticleConverter;
+import com.online.shop.areas.articles.dto.article.ArticleOptionsResponseDto;
 import com.online.shop.areas.articles.dto.article.ArticleResponseDto;
 import com.online.shop.areas.articles.entities.Article;
 import com.online.shop.areas.articles.entities.Color;
@@ -38,17 +39,27 @@ public class AdminArticleController {
     }
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public ResponseEntity<Response> register(@Valid @RequestParam CreateArticleBindingModel createArticleBindingModel,
-                                             @RequestParam(required = true) MultipartFile photo,
+    public ResponseEntity<Response> register(@Valid @RequestPart(name = "article", required = true) CreateArticleBindingModel article,
+                                             @RequestPart(name = "photo", required = true) MultipartFile photo,
                                              BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new RequestException(ErrorMessageHelper.formatMessage(bindingResult.getFieldErrors()), HttpStatus.BAD_REQUEST);
         }
 
-        ArticleResponseDto createdArticle = this.articleService.createArticle(createArticleBindingModel);
+        ArticleResponseDto createdArticle = this.articleService.createArticle(article, photo);
 
         return new ResponseEntity<>(new Response(ResponseMessageConstants.CREATE_ARTICLE_SUCCESS, createdArticle), HttpStatus.CREATED);
     }
+
+    @RequestMapping(path = "/options", method = RequestMethod.GET)
+    public ResponseEntity<Response> register(){
+
+        ArticleOptionsResponseDto articleOptions = this.articleService.getArticleOptions();
+
+        return new ResponseEntity<>(new Response("", articleOptions), HttpStatus.OK);
+    }
+
+
 
     /*@InitBinder
     public void initBinder(final WebDataBinder webdataBinder) {

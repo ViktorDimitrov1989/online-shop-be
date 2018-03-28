@@ -5,6 +5,6 @@ import com.online.shop.areas.articles.entities.ArticleStatus;
 
 public interface ArticleStatusService {
 
-    ArticleStatusResponseDto createArticleStatus(ArticleStatus articleStatus);
+    ArticleStatus createArticleStatus(ArticleStatus articleStatus);
 
 }

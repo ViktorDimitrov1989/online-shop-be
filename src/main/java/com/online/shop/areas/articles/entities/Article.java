@@ -47,6 +47,10 @@ public class Article {
             inverseJoinColumns = @JoinColumn(name = "color_id"))
     private Set<Color> colors;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     public Article() {
     }
 
@@ -128,5 +132,13 @@ public class Article {
 
     public void setStatus(ArticleStatus status) {
         this.status = status;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

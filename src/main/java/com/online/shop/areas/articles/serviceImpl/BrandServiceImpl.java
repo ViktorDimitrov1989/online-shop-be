@@ -7,9 +7,14 @@ import com.online.shop.areas.articles.services.BrandService;
 import com.online.shop.exception.RequestException;
 import com.online.shop.response.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class BrandServiceImpl implements BrandService {
@@ -36,6 +41,15 @@ public class BrandServiceImpl implements BrandService {
         Brand createdBrand = this.brandRepository.save(brand);
 
         return this.modelMapper.map(createdBrand, BrandResponseDto.class);
+    }
+
+    @Override
+    public List<BrandResponseDto> findAllBrands() {
+        List<Brand> brands = this.brandRepository.findAll();
+
+        Type targetListType = new TypeToken<List<BrandResponseDto>>() {}.getType();
+
+        return this.modelMapper.map(brands, targetListType);
     }
 
     @Override

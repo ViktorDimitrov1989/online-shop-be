@@ -1,6 +1,4 @@
 package com.online.shop.areas.articles.models.binding;
-import com.online.shop.areas.articles.entities.Color;
-import com.online.shop.areas.articles.entities.Size;
 import com.online.shop.areas.articles.enums.Gender;
 import com.online.shop.areas.articles.enums.Season;
 import com.online.shop.areas.articles.enums.Status;
@@ -15,15 +13,11 @@ public class CreateArticleBindingModel {
 
     private String description;
 
-    private String photo;
+    private Long categoryId;
 
     private String brandName;
 
     private Status status;
-
-    private Season season;
-
-    private Gender gender;
 
     private Date expireDate;
 
@@ -54,14 +48,6 @@ public class CreateArticleBindingModel {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 
     public String getBrandName() {
@@ -128,19 +114,11 @@ public class CreateArticleBindingModel {
         this.colors = colors;
     }
 
-    public Season getSeason() {
-        return season;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setSeason(Season season) {
-        this.season = season;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 }

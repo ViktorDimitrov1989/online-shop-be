@@ -2,6 +2,8 @@ package com.online.shop.areas.articles.dto.category;
 
 public class CategoryResponseDto {
 
+    private Long id;
+
     private String name;
 
     private int minAge;
@@ -10,9 +12,17 @@ public class CategoryResponseDto {
 
     private String gender;
 
-    private String sezon;
+    private String season;
 
     public CategoryResponseDto() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -47,11 +57,11 @@ public class CategoryResponseDto {
         this.gender = gender;
     }
 
-    public String getSezon() {
-        return sezon;
+    public String getSeason() {
+        return season;
     }
 
-    public void setSezon(String sezon) {
-        this.sezon = sezon;
+    public void setSeason(String season) {
+        this.season = season;
     }
 }

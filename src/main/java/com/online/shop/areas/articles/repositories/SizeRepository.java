@@ -4,9 +4,11 @@ import com.online.shop.areas.articles.entities.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Set;
+
 @Repository
 public interface SizeRepository extends JpaRepository<Size, Long> {
 
-    Size findOneByName(String name);
+    Set<Size> findAllByNameIn(Set<String> name);
 
 }

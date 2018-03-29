@@ -14,7 +14,7 @@ public class IsMinAndMaxAgeCorrectValidator implements ConstraintValidator<IsMin
     @Override
     public boolean isValid(Object categoryClass, ConstraintValidatorContext constraintValidatorContext) {
 
-        if(categoryClass instanceof RegisterUserBindingModel){
+        if(categoryClass instanceof CreateCategoryBindingModel){
             return ((CreateCategoryBindingModel) categoryClass).getMinAge() < ((CreateCategoryBindingModel) categoryClass).getMaxAge();
         }
 

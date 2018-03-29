@@ -14,7 +14,7 @@ public class CreateCategoryBindingModel {
     private int maxAge;
     @NotNull(message = "Gender age cant be empty")
     private String gender;
-    @NotNull(message = "Season age cant be empty")
+    @NotNull(message = "Season cant be empty")
     private String season;
 
     public CreateCategoryBindingModel() {

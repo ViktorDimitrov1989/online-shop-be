@@ -8,7 +8,7 @@ public enum Gender {
     }
 
     public static boolean isPresent(String value){
-        for (Season s : Season.values()) {
+        for (Gender s : Gender.values()) {
             if (s.name().equals(value)) {
                 return true;
             }

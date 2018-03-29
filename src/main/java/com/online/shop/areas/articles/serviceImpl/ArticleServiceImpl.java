@@ -5,20 +5,21 @@ import com.online.shop.areas.articles.dto.brand.BrandResponseDto;
 import com.online.shop.areas.articles.dto.category.CategoryResponseDto;
 import com.online.shop.areas.articles.dto.colors.ColorResponseDto;
 import com.online.shop.areas.articles.dto.sizes.SizeResponseDto;
-import com.online.shop.areas.articles.entities.Article;
-import com.online.shop.areas.articles.entities.ArticleStatus;
-import com.online.shop.areas.articles.entities.Brand;
-import com.online.shop.areas.articles.entities.Color;
+import com.online.shop.areas.articles.entities.*;
 import com.online.shop.areas.articles.models.binding.CreateArticleBindingModel;
 import com.online.shop.areas.articles.repositories.ArticleRepository;
 import com.online.shop.areas.articles.services.*;
 import com.online.shop.utils.PictureUploader;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -74,9 +75,11 @@ public class ArticleServiceImpl implements ArticleService {
         article.setSizes(this.sizeService.findAllSizesIn(createArticleBindingModel.getSizes()));
         article.setColors(this.colorService.findAllColorsIn(createArticleBindingModel.getColors()));
         article.setStatus(this.articleStatusService.createArticleStatus(status));
-        article.setCategory(this.categoryService.findCategoryById(createArticleBindingModel.getCategoryId()));
+        article.setCategory(this.categoryService.findCategoryById(createArticleBindingModel.getCategory()));
 
         Article createdArticle  = this.articleRepository.save(article);
+
+
         String debug = "";
 
 
@@ -93,5 +96,27 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleOptionsResponseDto resp = new ArticleOptionsResponseDto(brands, categories, sizes, colors);
 
         return resp;
+    }
+
+    @Override
+    public Page<ArticleResponseDto> findAllArticles(int page, int size) {
+        Pageable pageCount = PageRequest.of(page, size, Sort.Direction.ASC, "id");
+
+        Page<Article> articles = this.articleRepository.findAll(pageCount);
+
+        List<ArticleResponseDto> resp = new ArrayList<>();
+
+        for (Article article : articles) {
+            ArticleResponseDto articleResp = this.modelMapper.map(article, ArticleResponseDto.class);
+
+            articleResp.setColors(article.getColors().stream().map(Color::getName).collect(Collectors.toSet()));
+            articleResp.setSizes(article.getSizes().stream().map(Size::getName).collect(Collectors.toSet()));
+
+            resp.add(articleResp);
+        }
+
+        Page<ArticleResponseDto> respPage = new PageImpl<>(resp, pageCount, this.articleRepository.count());
+
+        return respPage;
     }
 }

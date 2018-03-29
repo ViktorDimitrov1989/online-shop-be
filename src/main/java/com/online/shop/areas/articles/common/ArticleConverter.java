@@ -1,9 +1,6 @@
 package com.online.shop.areas.articles.common;
 
-import com.online.shop.areas.articles.entities.Article;
 import com.online.shop.areas.articles.entities.Color;
-import com.online.shop.areas.articles.entities.Size;
-import com.online.shop.areas.articles.models.binding.CreateArticleBindingModel;
 import com.online.shop.areas.articles.repositories.ColorRepository;
 import com.online.shop.areas.articles.repositories.SizeRepository;
 import org.modelmapper.ModelMapper;
@@ -28,11 +25,6 @@ public class ArticleConverter extends PropertyEditorSupport {
         this.colorRepository = colorRepository;
         this.sizeRepository = sizeRepository;
         this.modelMapper = modelMapper;
-    }
-
-    @Override
-    public void setSource(Object source) {
-        super.setSource(source);
     }
 
     @Override

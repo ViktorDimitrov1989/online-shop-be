@@ -9,7 +9,7 @@ public class ArticleStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -21,14 +21,17 @@ public class ArticleStatus {
     @Column(name = "discount")
     private int discount;
 
+    @Column(name = "is_available")
+    private boolean isAvailable;
+
     public ArticleStatus() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -54,5 +57,13 @@ public class ArticleStatus {
 
     public void setDiscount(int discount) {
         this.discount = discount;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 }

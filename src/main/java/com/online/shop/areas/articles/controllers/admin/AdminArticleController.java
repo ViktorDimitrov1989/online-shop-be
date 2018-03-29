@@ -1,4 +1,4 @@
-package com.online.shop.areas.articles.controllers;
+package com.online.shop.areas.articles.controllers.admin;
 
 import com.online.shop.areas.articles.common.ArticleConverter;
 import com.online.shop.areas.articles.dto.article.ArticleOptionsResponseDto;
@@ -33,13 +33,15 @@ public class AdminArticleController {
     private ArticleConverter articleConverter;
 
     @Autowired
-    public AdminArticleController(ArticleService articleService, ArticleConverter articleConverter) {
+    public AdminArticleController(
+            ArticleService articleService,
+            ArticleConverter articleConverter) {
         this.articleService = articleService;
         this.articleConverter = articleConverter;
     }
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public ResponseEntity<Response> register(@Valid @RequestPart(name = "article", required = true) CreateArticleBindingModel article,
+    public ResponseEntity<Response> createArticle(@Valid @RequestPart(name = "article", required = true) CreateArticleBindingModel article,
                                              @RequestPart(name = "photo", required = true) MultipartFile photo,
                                              BindingResult bindingResult){
         if(bindingResult.hasErrors()){
@@ -52,7 +54,7 @@ public class AdminArticleController {
     }
 
     @RequestMapping(path = "/options", method = RequestMethod.GET)
-    public ResponseEntity<Response> register(){
+    public ResponseEntity<Response> getArticleOptions(){
 
         ArticleOptionsResponseDto articleOptions = this.articleService.getArticleOptions();
 
@@ -62,7 +64,7 @@ public class AdminArticleController {
 
 
     /*@InitBinder
-    public void initBinder(final WebDataBinder webdataBinder) {
+    public void initBinder(WebDataBinder webdataBinder) {
         webdataBinder.registerCustomEditor(Set.class, "colors" ,this.articleConverter);
     }*/
 

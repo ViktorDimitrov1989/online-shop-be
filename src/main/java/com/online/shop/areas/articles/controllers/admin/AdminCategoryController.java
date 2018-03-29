@@ -1,9 +1,7 @@
-package com.online.shop.areas.articles.controllers;
-
-import com.online.shop.areas.articles.dto.brand.BrandResponseDto;
-import com.online.shop.areas.articles.models.binding.CreateBrandBindingModel;
-import com.online.shop.areas.articles.services.BrandService;
-import com.online.shop.areas.users.dto.user.UserResponseDto;
+package com.online.shop.areas.articles.controllers.admin;
+import com.online.shop.areas.articles.dto.category.CategoryResponseDto;
+import com.online.shop.areas.articles.models.binding.CreateCategoryBindingModel;
+import com.online.shop.areas.articles.services.CategoryService;
 import com.online.shop.exception.RequestException;
 import com.online.shop.response.ErrorMessageHelper;
 import com.online.shop.response.Response;
@@ -18,26 +16,26 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/admin/brand")
-public class AdminBrandController {
+@RequestMapping("/admin/category")
+public class AdminCategoryController {
 
-    private BrandService brandService;
+    private CategoryService categoryService;
 
     @Autowired
-    public AdminBrandController(BrandService brandService) {
-        this.brandService = brandService;
+    public AdminCategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public ResponseEntity<Response> register(@Valid @RequestBody CreateBrandBindingModel createBrandBindingModel,
+    public ResponseEntity<Response> register(@Valid @RequestBody CreateCategoryBindingModel createCategoryBindingModel,
                                              BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new RequestException(ErrorMessageHelper.formatMessage(bindingResult.getFieldErrors()), HttpStatus.BAD_REQUEST);
         }
 
-        BrandResponseDto createdBrand = this.brandService.createBrand(createBrandBindingModel);
+        CategoryResponseDto createdCategory = this.categoryService.createCategory(createCategoryBindingModel);
 
-        return new ResponseEntity<>(new Response(ResponseMessageConstants.CREATE_BRAND_SUCCESS, createdBrand), HttpStatus.CREATED);
+        return new ResponseEntity<>(new Response(ResponseMessageConstants.CREATE_CATEGORY_SUCCESS, createdCategory), HttpStatus.CREATED);
     }
 
 

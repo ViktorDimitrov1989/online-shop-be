@@ -1,4 +1,4 @@
-package com.online.shop.areas.articles.controllers;
+package com.online.shop.areas.articles.controllers.admin;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;

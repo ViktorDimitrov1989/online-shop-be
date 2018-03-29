@@ -10,7 +10,7 @@ public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "name", unique = true)
     private String name;
@@ -32,9 +32,6 @@ public class Article {
     @Column(name = "price")
     private BigDecimal price;
 
-    @Column(name = "is_available")
-    private boolean isAvailable;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "articles_sizes",
             joinColumns = @JoinColumn(name = "article_id"),
@@ -54,11 +51,11 @@ public class Article {
     public Article() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -100,14 +97,6 @@ public class Article {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
     }
 
     public Set<Size> getSizes() {

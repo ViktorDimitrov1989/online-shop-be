@@ -11,7 +11,6 @@ import com.online.shop.areas.articles.repositories.ArticleRepository;
 import com.online.shop.areas.articles.services.*;
 import com.online.shop.utils.PictureUploader;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -79,11 +78,11 @@ public class ArticleServiceImpl implements ArticleService {
 
         Article createdArticle  = this.articleRepository.save(article);
 
+        ArticleResponseDto articleResponse = this.modelMapper.map(createdArticle, ArticleResponseDto.class);
+        articleResponse.setSizes(createdArticle.getSizes().stream().map(Size::getName).collect(Collectors.toSet()));
+        articleResponse.setColors(createdArticle.getColors().stream().map(Color::getName).collect(Collectors.toSet()));
 
-        String debug = "";
-
-
-        return null;
+        return articleResponse;
     }
 
     @Override

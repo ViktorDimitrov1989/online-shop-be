@@ -1,12 +1,14 @@
 package com.online.shop.areas.articles.serviceImpl;
 import com.online.shop.areas.articles.dto.article.ArticleOptionsResponseDto;
 import com.online.shop.areas.articles.dto.article.ArticleResponseDto;
+import com.online.shop.areas.articles.dto.articleStatus.ArticleStatusResponseDto;
 import com.online.shop.areas.articles.dto.brand.BrandResponseDto;
 import com.online.shop.areas.articles.dto.category.CategoryResponseDto;
 import com.online.shop.areas.articles.dto.colors.ColorResponseDto;
 import com.online.shop.areas.articles.dto.sizes.SizeResponseDto;
 import com.online.shop.areas.articles.entities.*;
 import com.online.shop.areas.articles.models.binding.CreateArticleBindingModel;
+import com.online.shop.areas.articles.models.binding.FilterArticlesBindingModel;
 import com.online.shop.areas.articles.repositories.ArticleRepository;
 import com.online.shop.areas.articles.services.*;
 import com.online.shop.utils.PictureUploader;
@@ -117,5 +119,31 @@ public class ArticleServiceImpl implements ArticleService {
         Page<ArticleResponseDto> respPage = new PageImpl<>(resp, pageCount, this.articleRepository.count());
 
         return respPage;
+    }
+
+    @Override
+    public Page<ArticleResponseDto> findFilteredArticles(int page, int size, FilterArticlesBindingModel filterArticlesBindingModel) {
+        Pageable pageCount = PageRequest.of(page, size, Sort.Direction.ASC, "id");
+
+        List<String> sizes = this.sizeService.findAllSizes().stream().filter(x -> filterArticlesBindingModel.getChosenSizes().contains(x.getName())).map(SizeResponseDto::getName).collect(Collectors.toList());
+        List<String> colors = this.colorService.findAllColors().stream().filter(x -> filterArticlesBindingModel.getChosenColors().contains(x.getName())).map(ColorResponseDto::getName).collect(Collectors.toList());
+        List<String> brands = this.brandService.findAllBrands().stream().filter(x -> filterArticlesBindingModel.getChosenBrands().contains(x.getName())).map(BrandResponseDto::getName).collect(Collectors.toList());
+        List<Long> categories = this.categoryService.findAllCategories().stream().filter(x -> filterArticlesBindingModel.getChosenCategories().contains(x.getId())).map(CategoryResponseDto::getId).collect(Collectors.toList());
+        List<String> statuses = this.articleStatusService.findArticleStatuses().stream().filter(x -> filterArticlesBindingModel.getChosenStatuses().contains(x.getStatus())).map(ArticleStatusResponseDto::getStatus).collect(Collectors.toList());
+
+        FilterArticlesBindingModel filters = new FilterArticlesBindingModel(sizes, colors, categories, brands, statuses);
+
+        Page<Article> articles = this.articleRepository.findAllByBrandNameInAndCategoryIdInAndSizesNameInAndColorsNameIn(
+                filters.getChosenBrands(),
+                filters.getChosenCategories(),
+                filters.getChosenSizes(),
+                filters.getChosenColors(),
+                pageCount);
+
+
+
+
+
+        return null;
     }
 }

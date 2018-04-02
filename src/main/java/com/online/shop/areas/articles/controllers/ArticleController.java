@@ -1,6 +1,7 @@
 package com.online.shop.areas.articles.controllers;
 
 import com.online.shop.areas.articles.dto.article.ArticleResponseDto;
+import com.online.shop.areas.articles.models.binding.FilterArticlesBindingModel;
 import com.online.shop.areas.articles.services.ArticleService;
 import com.online.shop.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,17 @@ public class ArticleController {
     public ResponseEntity<Response> getArticles(@RequestParam("page") int page, @RequestParam("size") int size){
 
         Page<ArticleResponseDto> articlesResponse = this.articleService.findAllArticles(page, size);
+
+        return new ResponseEntity<>(new Response("", articlesResponse), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/filter", params = { "page", "size" }, method = RequestMethod.POST)
+    public ResponseEntity<Response> filterArticles(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestBody FilterArticlesBindingModel filterArticlesBindingModel){
+
+        Page<ArticleResponseDto> articlesResponse = this.articleService.findFilteredArticles(page, size, filterArticlesBindingModel);
 
         return new ResponseEntity<>(new Response("", articlesResponse), HttpStatus.OK);
     }

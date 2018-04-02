@@ -5,7 +5,11 @@ import com.online.shop.areas.articles.entities.ArticleStatus;
 import com.online.shop.areas.articles.repositories.ArticleStatusRepository;
 import com.online.shop.areas.articles.services.ArticleStatusService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 @Service
 public class ArticleStatusServiceImpl implements ArticleStatusService {
@@ -25,5 +29,14 @@ public class ArticleStatusServiceImpl implements ArticleStatusService {
         ArticleStatus createdStatus = this.articleStatusRepository.save(articleStatus);
 
         return createdStatus;
+    }
+
+    @Override
+    public List<ArticleStatusResponseDto> findArticleStatuses() {
+        List<ArticleStatus> statuses = this.articleStatusRepository.findAll();
+
+        Type targetListType = new TypeToken<List<ArticleStatusResponseDto>>() {}.getType();
+
+        return this.modelMapper.map(statuses, targetListType);
     }
 }

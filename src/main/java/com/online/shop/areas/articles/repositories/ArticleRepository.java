@@ -28,11 +28,12 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             " AND cat.id NOT IN (:categories)" +
             " AND cat.season = :season" +
             " AND cat.gender = :gender", nativeQuery = true)
-    List<Article> findFilteredArticles(@Param(value= "colors")List<String> colors,
+    Page<Article> findFilteredArticles(@Param(value= "colors")List<String> colors,
                                        @Param(value= "categories")List<Long> categories,
                                        @Param(value= "sizes")List<String> sizes,
                                        @Param(value= "brands")List<String> brands,
                                        @Param(value = "season") String season,
-                                       @Param(value = "gender") String gender);
+                                       @Param(value = "gender") String gender,
+                                       Pageable pageCnt);
 
 }

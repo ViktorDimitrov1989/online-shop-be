@@ -125,13 +125,14 @@ public class ArticleServiceImpl implements ArticleService {
     public Page<ArticleResponseDto> findFilteredArticles(int page, int size, FilterArticlesBindingModel filterArticlesBindingModel) {
         Pageable pageCount = PageRequest.of(page, size, Sort.Direction.ASC, "id");
 
-        List<Article> articles = this.articleRepository.findFilteredArticles(
+        Page<Article> articles = this.articleRepository.findFilteredArticles(
                 filterArticlesBindingModel.getForbiddenColors(),
                 filterArticlesBindingModel.getForbiddenCategories(),
                 filterArticlesBindingModel.getForbiddenSizes(),
                 filterArticlesBindingModel.getForbiddenBrands(),
                 filterArticlesBindingModel.getSeason(),
-                filterArticlesBindingModel.getGender());
+                filterArticlesBindingModel.getGender(),
+                pageCount);
 
 
 

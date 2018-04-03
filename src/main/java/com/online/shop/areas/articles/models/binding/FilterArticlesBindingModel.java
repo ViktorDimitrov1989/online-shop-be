@@ -14,9 +14,9 @@ public class FilterArticlesBindingModel {
 
     private List<String> forbiddenStatuses;
 
-    private String season;
+    private String chosenSeason;
 
-    private String gender;
+    private String chosenGender;
 
     public FilterArticlesBindingModel() {
     }
@@ -61,19 +61,19 @@ public class FilterArticlesBindingModel {
         this.forbiddenStatuses = forbiddenStatuses;
     }
 
-    public String getSeason() {
-        return season;
+    public String getChosenSeason() {
+        return chosenSeason;
     }
 
-    public void setSeason(String season) {
-        this.season = season;
+    public void setChosenSeason(String chosenSeason) {
+        this.chosenSeason = chosenSeason;
     }
 
-    public String getGender() {
-        return gender;
+    public String getChosenGender() {
+        return chosenGender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setChosenGender(String chosenGender) {
+        this.chosenGender = chosenGender;
     }
 }

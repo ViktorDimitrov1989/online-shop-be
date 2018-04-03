@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    @Query(value = "SELECT a" +
+    @Query(value = "SELECT *" +
             " FROM articles AS a" +
             " INNER JOIN articles_colors AS ac ON a.id = ac.article_id" +
             " INNER JOIN colors AS c ON ac.color_id = c.id" +

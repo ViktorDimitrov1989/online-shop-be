@@ -130,8 +130,8 @@ public class ArticleServiceImpl implements ArticleService {
                 filterArticlesBindingModel.getForbiddenCategories(),
                 filterArticlesBindingModel.getForbiddenSizes(),
                 filterArticlesBindingModel.getForbiddenBrands(),
-                filterArticlesBindingModel.getSeason(),
-                filterArticlesBindingModel.getGender(),
+                filterArticlesBindingModel.getChosenSeason(),
+                filterArticlesBindingModel.getChosenGender(),
                 pageCount);
 
 

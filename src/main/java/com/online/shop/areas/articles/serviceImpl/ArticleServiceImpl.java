@@ -125,22 +125,13 @@ public class ArticleServiceImpl implements ArticleService {
     public Page<ArticleResponseDto> findFilteredArticles(int page, int size, FilterArticlesBindingModel filterArticlesBindingModel) {
         Pageable pageCount = PageRequest.of(page, size, Sort.Direction.ASC, "id");
 
-        List<String> sizes = this.sizeService.findAllSizes().stream().filter(x -> filterArticlesBindingModel.getChosenSizes().contains(x.getName())).map(SizeResponseDto::getName).collect(Collectors.toList());
-        List<String> colors = this.colorService.findAllColors().stream().filter(x -> filterArticlesBindingModel.getChosenColors().contains(x.getName())).map(ColorResponseDto::getName).collect(Collectors.toList());
-        List<String> brands = this.brandService.findAllBrands().stream().filter(x -> filterArticlesBindingModel.getChosenBrands().contains(x.getName())).map(BrandResponseDto::getName).collect(Collectors.toList());
-        List<Long> categories = this.categoryService.findAllCategories().stream().filter(x -> filterArticlesBindingModel.getChosenCategories().contains(x.getId())).map(CategoryResponseDto::getId).collect(Collectors.toList());
-        List<String> statuses = this.articleStatusService.findArticleStatuses().stream().filter(x -> filterArticlesBindingModel.getChosenStatuses().contains(x.getStatus())).map(ArticleStatusResponseDto::getStatus).collect(Collectors.toList());
-
-        FilterArticlesBindingModel filters = new FilterArticlesBindingModel(sizes, colors, categories, brands, statuses);
-
-        Page<Article> articles = this.articleRepository.findAllByBrandNameInAndCategoryIdInAndSizesNameInAndColorsNameIn(
-                filters.getChosenBrands(),
-                filters.getChosenCategories(),
-                filters.getChosenSizes(),
-                filters.getChosenColors(),
-                pageCount);
-
-
+        List<Article> articles = this.articleRepository.findFilteredArticles(
+                filterArticlesBindingModel.getForbiddenColors(),
+                filterArticlesBindingModel.getForbiddenCategories(),
+                filterArticlesBindingModel.getForbiddenSizes(),
+                filterArticlesBindingModel.getForbiddenBrands(),
+                filterArticlesBindingModel.getSeason(),
+                filterArticlesBindingModel.getGender());
 
 
 

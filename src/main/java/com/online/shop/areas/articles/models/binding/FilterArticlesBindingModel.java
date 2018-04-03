@@ -4,68 +4,76 @@ import java.util.List;
 
 public class FilterArticlesBindingModel {
 
-    private List<String> chosenSizes;
+    private List<String> forbiddenSizes;
 
-    private List<String> chosenColors;
+    private List<String> forbiddenColors;
 
-    private List<Long> chosenCategories;
+    private List<Long> forbiddenCategories;
 
-    private List<String> chosenBrands;
+    private List<String> forbiddenBrands;
 
-    private List<String> chosenStatuses;
+    private List<String> forbiddenStatuses;
 
-    public FilterArticlesBindingModel(List<String> chosenSizes,
-                                      List<String> chosenColors,
-                                      List<Long> chosenCategories,
-                                      List<String> chosenBrands,
-                                      List<String> chosenStatuses) {
-        this.chosenSizes = chosenSizes;
-        this.chosenColors = chosenColors;
-        this.chosenCategories = chosenCategories;
-        this.chosenBrands = chosenBrands;
-        this.chosenStatuses = chosenStatuses;
-    }
+    private String season;
+
+    private String gender;
 
     public FilterArticlesBindingModel() {
     }
 
-    public List<String> getChosenSizes() {
-        return chosenSizes;
+    public List<String> getForbiddenSizes() {
+        return forbiddenSizes;
     }
 
-    public void setChosenSizes(List<String> chosenSizes) {
-        this.chosenSizes = chosenSizes;
+    public void setForbiddenSizes(List<String> forbiddenSizes) {
+        this.forbiddenSizes = forbiddenSizes;
     }
 
-    public List<String> getChosenColors() {
-        return chosenColors;
+    public List<String> getForbiddenColors() {
+        return forbiddenColors;
     }
 
-    public void setChosenColors(List<String> chosenColors) {
-        this.chosenColors = chosenColors;
+    public void setForbiddenColors(List<String> forbiddenColors) {
+        this.forbiddenColors = forbiddenColors;
     }
 
-    public List<Long> getChosenCategories() {
-        return chosenCategories;
+    public List<Long> getForbiddenCategories() {
+        return forbiddenCategories;
     }
 
-    public void setChosenCategories(List<Long> chosenCategories) {
-        this.chosenCategories = chosenCategories;
+    public void setForbiddenCategories(List<Long> forbiddenCategories) {
+        this.forbiddenCategories = forbiddenCategories;
     }
 
-    public List<String> getChosenBrands() {
-        return chosenBrands;
+    public List<String> getForbiddenBrands() {
+        return forbiddenBrands;
     }
 
-    public void setChosenBrands(List<String> chosenBrands) {
-        this.chosenBrands = chosenBrands;
+    public void setForbiddenBrands(List<String> forbiddenBrands) {
+        this.forbiddenBrands = forbiddenBrands;
     }
 
-    public List<String> getChosenStatuses() {
-        return chosenStatuses;
+    public List<String> getForbiddenStatuses() {
+        return forbiddenStatuses;
     }
 
-    public void setChosenStatuses(List<String> chosenStatuses) {
-        this.chosenStatuses = chosenStatuses;
+    public void setForbiddenStatuses(List<String> forbiddenStatuses) {
+        this.forbiddenStatuses = forbiddenStatuses;
+    }
+
+    public String getSeason() {
+        return season;
+    }
+
+    public void setSeason(String season) {
+        this.season = season;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

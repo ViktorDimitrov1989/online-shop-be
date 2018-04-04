@@ -10,6 +10,8 @@ public class ArticleStatusResponseDto {
 
     private int discount;
 
+    private boolean isAvailable;
+
     public ArticleStatusResponseDto() {
     }
 
@@ -35,5 +37,13 @@ public class ArticleStatusResponseDto {
 
     public void setDiscount(int discount) {
         this.discount = discount;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 }

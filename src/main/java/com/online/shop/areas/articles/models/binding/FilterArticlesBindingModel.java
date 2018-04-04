@@ -1,5 +1,7 @@
 package com.online.shop.areas.articles.models.binding;
 
+import com.online.shop.areas.articles.enums.Status;
+
 import java.util.List;
 
 public class FilterArticlesBindingModel {
@@ -12,7 +14,7 @@ public class FilterArticlesBindingModel {
 
     private List<String> selectedBrands;
 
-    private List<String> selectedStatuses;
+    private List<Status> selectedStatuses;
 
     private String chosenSeason;
 
@@ -53,11 +55,11 @@ public class FilterArticlesBindingModel {
         this.selectedBrands = selectedBrands;
     }
 
-    public List<String> getSelectedStatuses() {
+    public List<Status> getSelectedStatuses() {
         return selectedStatuses;
     }
 
-    public void setSelectedStatuses(List<String> selectedStatuses) {
+    public void setSelectedStatuses(List<Status> selectedStatuses) {
         this.selectedStatuses = selectedStatuses;
     }
 

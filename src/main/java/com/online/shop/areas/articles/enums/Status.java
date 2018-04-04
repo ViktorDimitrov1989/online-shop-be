@@ -1,5 +1,9 @@
 package com.online.shop.areas.articles.enums;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public enum Status {
     PROMO,
     REGULAR,
@@ -15,5 +19,10 @@ public enum Status {
             }
         }
         return false;
+    }
+
+
+    public static List<Status> getStatuses(){
+        return new ArrayList<Status>(Arrays.asList(PROMO, REGULAR, SALE));
     }
 }

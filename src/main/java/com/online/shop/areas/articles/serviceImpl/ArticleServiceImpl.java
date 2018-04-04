@@ -9,6 +9,7 @@ import com.online.shop.areas.articles.dto.sizes.SizeResponseDto;
 import com.online.shop.areas.articles.entities.*;
 import com.online.shop.areas.articles.enums.Gender;
 import com.online.shop.areas.articles.enums.Season;
+import com.online.shop.areas.articles.enums.Status;
 import com.online.shop.areas.articles.models.binding.CreateArticleBindingModel;
 import com.online.shop.areas.articles.models.binding.FilterArticlesBindingModel;
 import com.online.shop.areas.articles.repositories.ArticleRepository;
@@ -156,13 +157,18 @@ public class ArticleServiceImpl implements ArticleService {
             selectedCategories = this.categoryService.findAllRawCategories();
         }
 
-        Page<Article> articles = this.articleRepository.findAllDistinctBySizesInAndColorsInAndBrandInAndCategoryInAndCategorySeasonAndCategoryGender(
+        if(filterArticlesBindingModel.getSelectedStatuses().size() == 0){
+            filterArticlesBindingModel.setSelectedStatuses(Status.getStatuses());
+        }
+
+        Page<Article> articles = this.articleRepository.findAllDistinctBySizesInAndColorsInAndBrandInAndCategoryInAndCategorySeasonAndCategoryGenderAndStatusStatusIn(
                 selectedSizes,
                 selectedColors,
                 selectedBrands,
                 selectedCategories,
                 Season.valueOf(filterArticlesBindingModel.getChosenSeason()),
                 Gender.valueOf(filterArticlesBindingModel.getChosenGender()),
+                filterArticlesBindingModel.getSelectedStatuses(),
                 pageCount);
 
         List<ArticleResponseDto> resp = this.mapArticlesResponse(articles);

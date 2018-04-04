@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -62,6 +63,21 @@ public class ArticleServiceImpl implements ArticleService {
         this.sizeService = sizeService;
         this.modelMapper = modelMapper;
         this.pictureUploader = pictureUploader;
+    }
+
+    private List<ArticleResponseDto> mapArticlesResponse(Page<Article> articles){
+        List<ArticleResponseDto> resp = new ArrayList<>();
+
+        for (Article article : articles) {
+            ArticleResponseDto articleResp = this.modelMapper.map(article, ArticleResponseDto.class);
+
+            articleResp.setColors(article.getColors().stream().map(Color::getName).collect(Collectors.toSet()));
+            articleResp.setSizes(article.getSizes().stream().map(Size::getName).collect(Collectors.toSet()));
+
+            resp.add(articleResp);
+        }
+
+        return resp;
     }
 
 
@@ -108,16 +124,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         Page<Article> articles = this.articleRepository.findAll(pageCount);
 
-        List<ArticleResponseDto> resp = new ArrayList<>();
-
-        for (Article article : articles) {
-            ArticleResponseDto articleResp = this.modelMapper.map(article, ArticleResponseDto.class);
-
-            articleResp.setColors(article.getColors().stream().map(Color::getName).collect(Collectors.toSet()));
-            articleResp.setSizes(article.getSizes().stream().map(Size::getName).collect(Collectors.toSet()));
-
-            resp.add(articleResp);
-        }
+        List<ArticleResponseDto> resp = this.mapArticlesResponse(articles);
 
         Page<ArticleResponseDto> respPage = new PageImpl<>(resp, pageCount, this.articleRepository.count());
 
@@ -158,8 +165,11 @@ public class ArticleServiceImpl implements ArticleService {
                 Gender.valueOf(filterArticlesBindingModel.getChosenGender()),
                 pageCount);
 
+        List<ArticleResponseDto> resp = this.mapArticlesResponse(articles);
 
+        Page<ArticleResponseDto> respPage = new PageImpl<>(resp, pageCount, this.articleRepository.count());
 
-        return null;
+        return respPage;
     }
+
 }

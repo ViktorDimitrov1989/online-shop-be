@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +28,11 @@ public class ColorServiceImpl implements ColorService{
     @Override
     public Set<Color> findAllColorsIn(Collection<String> colors) {
         return this.colorRepository.findAllByNameIn(colors);
+    }
+
+    @Override
+    public Set<Color> findAllRawColors() {
+        return new HashSet<>(this.colorRepository.findAll());
     }
 
     @Override

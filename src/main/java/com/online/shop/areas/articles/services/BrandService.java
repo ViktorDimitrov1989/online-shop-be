@@ -4,6 +4,7 @@ import com.online.shop.areas.articles.dto.brand.BrandResponseDto;
 import com.online.shop.areas.articles.entities.Brand;
 import com.online.shop.areas.articles.models.binding.CreateBrandBindingModel;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -14,4 +15,8 @@ public interface BrandService {
     List<BrandResponseDto> findAllBrands();
 
     Brand findBrandByName(String name);
+
+    Set<Brand> findAllRawBrands();
+
+    Set<Brand> findAllBrandsByNames(Collection<String> names);
 }

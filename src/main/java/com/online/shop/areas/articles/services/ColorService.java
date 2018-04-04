@@ -11,5 +11,7 @@ public interface ColorService {
 
     Set<Color> findAllColorsIn(Collection<String> colors);
 
+    Set<Color> findAllRawColors();
+
     List<ColorResponseDto> findAllColors();
 }

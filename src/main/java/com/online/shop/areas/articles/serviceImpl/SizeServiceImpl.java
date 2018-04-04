@@ -13,8 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class SizeServiceImpl implements SizeService{
@@ -30,7 +33,7 @@ public class SizeServiceImpl implements SizeService{
     }
 
     @Override
-    public Set<Size> findAllSizesIn(Set<String> sizes) {
+    public Set<Size> findAllSizesIn(Collection<String> sizes) {
         Set<Size> resp = this.sizeRepository.findAllByNameIn(sizes);
 
         if(resp == null){
@@ -38,6 +41,11 @@ public class SizeServiceImpl implements SizeService{
         }
 
         return resp;
+    }
+
+    @Override
+    public Set<Size> findAllRawSizes() {
+        return new HashSet<>(this.sizeRepository.findAll());
     }
 
     @Override

@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -61,5 +63,15 @@ public class BrandServiceImpl implements BrandService {
         }
 
         return res;
+    }
+
+    @Override
+    public Set<Brand> findAllRawBrands() {
+        return new HashSet<>(this.brandRepository.findAll());
+    }
+
+    @Override
+    public Set<Brand> findAllBrandsByNames(Collection<String> names) {
+        return this.brandRepository.findAllByNameIn(names);
     }
 }

@@ -15,7 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -39,6 +42,16 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return category;
+    }
+
+    @Override
+    public Set<Category> findCategoriesByIds(Collection<Long> ids) {
+        return this.categoryRepository.findAllByIdIn(ids);
+    }
+
+    @Override
+    public Set<Category> findAllRawCategories() {
+        return new HashSet<>(this.categoryRepository.findAll());
     }
 
     @Override

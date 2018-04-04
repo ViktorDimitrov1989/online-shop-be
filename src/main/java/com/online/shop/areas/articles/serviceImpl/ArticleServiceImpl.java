@@ -7,6 +7,8 @@ import com.online.shop.areas.articles.dto.category.CategoryResponseDto;
 import com.online.shop.areas.articles.dto.colors.ColorResponseDto;
 import com.online.shop.areas.articles.dto.sizes.SizeResponseDto;
 import com.online.shop.areas.articles.entities.*;
+import com.online.shop.areas.articles.enums.Gender;
+import com.online.shop.areas.articles.enums.Season;
 import com.online.shop.areas.articles.models.binding.CreateArticleBindingModel;
 import com.online.shop.areas.articles.models.binding.FilterArticlesBindingModel;
 import com.online.shop.areas.articles.repositories.ArticleRepository;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -125,13 +128,34 @@ public class ArticleServiceImpl implements ArticleService {
     public Page<ArticleResponseDto> findFilteredArticles(int page, int size, FilterArticlesBindingModel filterArticlesBindingModel) {
         Pageable pageCount = PageRequest.of(page, size, Sort.Direction.ASC, "id");
 
-        Page<Article> articles = this.articleRepository.findFilteredArticles(
-                filterArticlesBindingModel.getForbiddenColors(),
-                filterArticlesBindingModel.getForbiddenCategories(),
-                filterArticlesBindingModel.getForbiddenSizes(),
-                filterArticlesBindingModel.getForbiddenBrands(),
-                filterArticlesBindingModel.getChosenSeason(),
-                filterArticlesBindingModel.getChosenGender(),
+        Set<Size> selectedSizes = this.sizeService.findAllSizesIn(filterArticlesBindingModel.getSelectedSizes());
+        Set<Color> selectedColors = this.colorService.findAllColorsIn(filterArticlesBindingModel.getSelectedColors());
+        Set<Brand> selectedBrands = this.brandService.findAllBrandsByNames(filterArticlesBindingModel.getSelectedBrands());
+        Set<Category> selectedCategories = this.categoryService.findCategoriesByIds(filterArticlesBindingModel.getSelectedCategories());
+
+        if(selectedSizes.size() == 0){
+            selectedSizes = this.sizeService.findAllRawSizes();
+        }
+
+        if(selectedColors.size() == 0){
+            selectedColors = this.colorService.findAllRawColors();
+        }
+
+        if(selectedBrands.size() == 0){
+            selectedBrands = this.brandService.findAllRawBrands();
+        }
+
+        if(selectedCategories.size() == 0){
+            selectedCategories = this.categoryService.findAllRawCategories();
+        }
+
+        Page<Article> articles = this.articleRepository.findAllDistinctBySizesInAndColorsInAndBrandInAndCategoryInAndCategorySeasonAndCategoryGender(
+                selectedSizes,
+                selectedColors,
+                selectedBrands,
+                selectedCategories,
+                Season.valueOf(filterArticlesBindingModel.getChosenSeason()),
+                Gender.valueOf(filterArticlesBindingModel.getChosenGender()),
                 pageCount);
 
 

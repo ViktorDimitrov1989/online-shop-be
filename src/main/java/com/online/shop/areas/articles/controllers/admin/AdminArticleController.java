@@ -53,15 +53,6 @@ public class AdminArticleController {
         return new ResponseEntity<>(new Response(ResponseMessageConstants.CREATE_ARTICLE_SUCCESS, createdArticle), HttpStatus.CREATED);
     }
 
-    @RequestMapping(path = "/options", method = RequestMethod.GET)
-    public ResponseEntity<Response> getArticleOptions(){
-
-        ArticleOptionsResponseDto articleOptions = this.articleService.getArticleOptions();
-
-        return new ResponseEntity<>(new Response("", articleOptions), HttpStatus.OK);
-    }
-
-
 
     /*@InitBinder
     public void initBinder(WebDataBinder webdataBinder) {

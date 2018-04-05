@@ -1,5 +1,6 @@
 package com.online.shop.areas.articles.controllers;
 
+import com.online.shop.areas.articles.dto.article.ArticleOptionsResponseDto;
 import com.online.shop.areas.articles.dto.article.ArticleResponseDto;
 import com.online.shop.areas.articles.models.binding.FilterArticlesBindingModel;
 import com.online.shop.areas.articles.services.ArticleService;
@@ -39,6 +40,14 @@ public class ArticleController {
         Page<ArticleResponseDto> articlesResponse = this.articleService.findFilteredArticles(page, size, filterArticlesBindingModel);
 
         return new ResponseEntity<>(new Response("", articlesResponse), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/options", method = RequestMethod.GET)
+    public ResponseEntity<Response> getArticleOptions(){
+
+        ArticleOptionsResponseDto articleOptions = this.articleService.getArticleOptions();
+
+        return new ResponseEntity<>(new Response("", articleOptions), HttpStatus.OK);
     }
 
 

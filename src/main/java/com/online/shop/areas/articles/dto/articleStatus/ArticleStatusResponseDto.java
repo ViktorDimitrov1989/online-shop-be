@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class ArticleStatusResponseDto {
 
+    private Long id;
+
     private String status;
 
     private Date expireDate;
@@ -45,5 +47,13 @@ public class ArticleStatusResponseDto {
 
     public void setAvailable(boolean available) {
         isAvailable = available;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

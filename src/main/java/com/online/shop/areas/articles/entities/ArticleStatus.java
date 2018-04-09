@@ -22,7 +22,7 @@ public class ArticleStatus {
     private int discount;
 
     @Column(name = "is_available")
-    private boolean isAvailable;
+    private boolean available;
 
     public ArticleStatus() {
     }
@@ -60,10 +60,10 @@ public class ArticleStatus {
     }
 
     public boolean isAvailable() {
-        return isAvailable;
+        return available;
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
+        this.available = available;
     }
 }

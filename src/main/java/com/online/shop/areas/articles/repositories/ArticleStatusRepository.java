@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ArticleStatusRepository extends JpaRepository<ArticleStatus, Long> {
+
+    ArticleStatus findOneById(Long id);
+
 }

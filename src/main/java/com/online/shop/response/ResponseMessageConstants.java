@@ -30,6 +30,9 @@ public final class ResponseMessageConstants {
     public static final String INVALID_BRAND_NAME = "Невалидно име на марка.";
     public static final String INVALID_SIZE = "Невалиден размер.";
     public static final String INVALID_CATEGORY_ID = "Невалидно ID на категория.";
+    public static final String INVALID_STATUS_ID = "Невалидно ID на статус.";
+    public static final String INVALID_STATUS_END_DATE = "Некоректна дата на изтичане.";
+    public static final String EDIT_ARTICLE_STATUS_SUCCESS = "Статуса е променен.";
 
 
     private ResponseMessageConstants(){}

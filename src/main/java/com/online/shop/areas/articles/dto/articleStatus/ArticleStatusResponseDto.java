@@ -12,7 +12,7 @@ public class ArticleStatusResponseDto {
 
     private int discount;
 
-    private boolean isAvailable;
+    private boolean available;
 
     public ArticleStatusResponseDto() {
     }
@@ -42,11 +42,11 @@ public class ArticleStatusResponseDto {
     }
 
     public boolean isAvailable() {
-        return isAvailable;
+        return available;
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
+        this.available = available;
     }
 
     public Long getId() {

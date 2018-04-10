@@ -11,13 +11,18 @@ import com.online.shop.areas.articles.enums.Gender;
 import com.online.shop.areas.articles.enums.Season;
 import com.online.shop.areas.articles.enums.Status;
 import com.online.shop.areas.articles.models.binding.CreateArticleBindingModel;
+import com.online.shop.areas.articles.models.binding.EditArticleBindingModel;
+import com.online.shop.areas.articles.models.binding.EditArticleStatusBindingModel;
 import com.online.shop.areas.articles.models.binding.FilterArticlesBindingModel;
 import com.online.shop.areas.articles.repositories.ArticleRepository;
 import com.online.shop.areas.articles.services.*;
+import com.online.shop.exception.RequestException;
+import com.online.shop.response.ResponseMessageConstants;
 import com.online.shop.utils.PictureUploader;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -83,8 +88,24 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
+    public Article getArticleById(Long id) {
+        Article resp = this.articleRepository.findOneById(id);
+
+        if(resp == null){
+            throw new RequestException(ResponseMessageConstants.INVALID_ARTICLE_ID, HttpStatus.BAD_REQUEST);
+        }
+
+        return resp;
+    }
+
+    @Override
     public ArticleResponseDto createArticle(CreateArticleBindingModel createArticleBindingModel, MultipartFile photo) {
         String photoUrl = this.pictureUploader.uploadPic(photo);
+
+        if(this.articleRepository.findAllByName(createArticleBindingModel.getName()).size() > 1){
+            throw new RequestException(ResponseMessageConstants.ARTICLE_NAME_DUPLICATE, HttpStatus.BAD_REQUEST);
+        }
+
         Article article = this.modelMapper.map(createArticleBindingModel, Article.class);
         article.setPhoto(photoUrl);
 
@@ -176,6 +197,41 @@ public class ArticleServiceImpl implements ArticleService {
         Page<ArticleResponseDto> respPage = new PageImpl<>(resp, pageCount, this.articleRepository.count());
 
         return respPage;
+    }
+
+    @Override
+    public ArticleResponseDto editArticle(EditArticleBindingModel article, MultipartFile photo) {
+        Article articleToEdit = this.getArticleById(article.getId());
+
+        if(this.articleRepository.findAllByName(article.getName()).size() > 1){
+            throw new RequestException(ResponseMessageConstants.ARTICLE_NAME_DUPLICATE, HttpStatus.BAD_REQUEST);
+        }
+
+        String updatedPhotoUrl = articleToEdit.getPhoto();
+
+        if(photo != null){
+            updatedPhotoUrl = this.pictureUploader.uploadPic(photo);
+        }
+
+        articleToEdit.setPhoto(updatedPhotoUrl);
+        articleToEdit.setName(article.getName());
+        articleToEdit.setPrice(article.getPrice());
+        articleToEdit.setDescription(article.getDescription());
+        articleToEdit.setSizes(this.sizeService.findAllSizesIn(article.getSizes()));
+        articleToEdit.setColors(this.colorService.findAllColorsIn(article.getColors()));
+
+        Article editedArticle = this.articleRepository.save(articleToEdit);
+
+        return this.modelMapper.map(editedArticle, ArticleResponseDto.class);
+    }
+
+    @Override
+    public ArticleResponseDto deleteArticleById(Long id) {
+        Article articleToDelete = this.getArticleById(id);
+
+        this.articleRepository.delete(articleToDelete);
+
+        return this.modelMapper.map(articleToDelete, ArticleResponseDto.class);
     }
 
 }

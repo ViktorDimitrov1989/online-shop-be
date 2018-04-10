@@ -28,4 +28,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             Collection<Status> statuses,
             Pageable pageCnt);
 
+    Article findOneById(Long id);
+
+    Collection<Article> findAllByName(String name);
+
 }

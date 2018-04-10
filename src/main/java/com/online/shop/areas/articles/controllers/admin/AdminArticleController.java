@@ -7,6 +7,8 @@ import com.online.shop.areas.articles.entities.Article;
 import com.online.shop.areas.articles.entities.Color;
 import com.online.shop.areas.articles.entities.Size;
 import com.online.shop.areas.articles.models.binding.CreateArticleBindingModel;
+import com.online.shop.areas.articles.models.binding.EditArticleBindingModel;
+import com.online.shop.areas.articles.models.binding.EditArticleStatusBindingModel;
 import com.online.shop.areas.articles.services.ArticleService;
 import com.online.shop.exception.RequestException;
 import com.online.shop.response.ErrorMessageHelper;
@@ -53,11 +55,25 @@ public class AdminArticleController {
         return new ResponseEntity<>(new Response(ResponseMessageConstants.CREATE_ARTICLE_SUCCESS, createdArticle), HttpStatus.CREATED);
     }
 
+    @RequestMapping(path = "/edit", method = RequestMethod.POST)
+    public ResponseEntity<Response> createArticle(@Valid @RequestPart(name = "article", required = true) EditArticleBindingModel article,
+                                                  @RequestPart(name = "photo", required = false) MultipartFile photo,
+                                                  BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new RequestException(ErrorMessageHelper.formatMessage(bindingResult.getFieldErrors()), HttpStatus.BAD_REQUEST);
+        }
 
-    /*@InitBinder
-    public void initBinder(WebDataBinder webdataBinder) {
-        webdataBinder.registerCustomEditor(Set.class, "colors" ,this.articleConverter);
-    }*/
+        ArticleResponseDto edited = this.articleService.editArticle(article, photo);
 
+        return new ResponseEntity<>(new Response(ResponseMessageConstants.EDIT_ARTICLE_SUCCESS, edited), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/delete/{id}", method = RequestMethod.POST)
+    public ResponseEntity<Response> createArticle(@PathVariable("id") Long id){
+
+        ArticleResponseDto deleted = this.articleService.deleteArticleById(id);
+
+        return new ResponseEntity<>(new Response(ResponseMessageConstants.DELETE_ARTICLE_SUCCESS, deleted), HttpStatus.OK);
+    }
 
 }

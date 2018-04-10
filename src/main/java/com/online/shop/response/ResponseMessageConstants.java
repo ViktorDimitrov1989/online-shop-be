@@ -27,12 +27,16 @@ public final class ResponseMessageConstants {
     public static final String INVALID_SEASON = "Невалиден сезон.";
     public static final String INVALID_GENDER = "Невалиден пол.";
     public static final String CREATE_ARTICLE_SUCCESS = "Артикула е създаден успешно.";
+    public static final String EDIT_ARTICLE_SUCCESS = "Артикула е променен успешно.";
     public static final String INVALID_BRAND_NAME = "Невалидно име на марка.";
     public static final String INVALID_SIZE = "Невалиден размер.";
     public static final String INVALID_CATEGORY_ID = "Невалидно ID на категория.";
     public static final String INVALID_STATUS_ID = "Невалидно ID на статус.";
     public static final String INVALID_STATUS_END_DATE = "Некоректна дата на изтичане.";
     public static final String EDIT_ARTICLE_STATUS_SUCCESS = "Статуса е променен.";
+    public static final String INVALID_ARTICLE_ID = "Невалиден артикул.";
+    public static final String ARTICLE_NAME_DUPLICATE = "Вече има артикул с това име.";
+    public static final String DELETE_ARTICLE_SUCCESS = "Артикула е изтрит успешно.";
 
 
     private ResponseMessageConstants(){}

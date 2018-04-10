@@ -1,8 +1,5 @@
 package com.online.shop.areas.articles.models.binding;
-import com.amazonaws.annotation.NotThreadSafe;
 import com.online.shop.areas.articles.annotations.IsDateAfterTomorrow;
-import com.online.shop.areas.articles.enums.Gender;
-import com.online.shop.areas.articles.enums.Season;
 import com.online.shop.areas.articles.enums.Status;
 
 import javax.validation.constraints.Max;
@@ -117,8 +114,8 @@ public class CreateArticleBindingModel {
         return isAvailable;
     }
 
-    public void setAvailable(boolean available) {
-        isAvailable = available;
+    public void setIsAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
     }
 
     public Set<String> getSizes() {

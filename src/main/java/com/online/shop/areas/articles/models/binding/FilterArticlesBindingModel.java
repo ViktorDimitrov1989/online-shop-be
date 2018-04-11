@@ -1,5 +1,7 @@
 package com.online.shop.areas.articles.models.binding;
 
+import com.online.shop.areas.articles.enums.Gender;
+import com.online.shop.areas.articles.enums.Season;
 import com.online.shop.areas.articles.enums.Status;
 
 import javax.validation.constraints.NotNull;
@@ -23,10 +25,10 @@ public class FilterArticlesBindingModel {
     private List<Status> selectedStatuses;
 
     @NotNull(message = "Selected season is missing.")
-    private String chosenSeason;
+    private Season chosenSeason;
 
     @NotNull(message = "Selected gender is missing.")
-    private String chosenGender;
+    private Gender chosenGender;
 
     public FilterArticlesBindingModel() {
     }
@@ -71,19 +73,19 @@ public class FilterArticlesBindingModel {
         this.selectedStatuses = selectedStatuses;
     }
 
-    public String getChosenSeason() {
+    public Season getChosenSeason() {
         return chosenSeason;
     }
 
-    public void setChosenSeason(String chosenSeason) {
+    public void setChosenSeason(Season chosenSeason) {
         this.chosenSeason = chosenSeason;
     }
 
-    public String getChosenGender() {
+    public Gender getChosenGender() {
         return chosenGender;
     }
 
-    public void setChosenGender(String chosenGender) {
+    public void setChosenGender(Gender chosenGender) {
         this.chosenGender = chosenGender;
     }
 }

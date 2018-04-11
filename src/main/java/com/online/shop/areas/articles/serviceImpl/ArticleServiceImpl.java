@@ -187,8 +187,8 @@ public class ArticleServiceImpl implements ArticleService {
                 selectedColors,
                 selectedBrands,
                 selectedCategories,
-                Season.valueOf(filterArticlesBindingModel.getChosenSeason()),
-                Gender.valueOf(filterArticlesBindingModel.getChosenGender()),
+                filterArticlesBindingModel.getChosenSeason(),
+                filterArticlesBindingModel.getChosenGender(),
                 filterArticlesBindingModel.getSelectedStatuses(),
                 pageCount);
 
@@ -203,7 +203,7 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleResponseDto editArticle(EditArticleBindingModel article, MultipartFile photo) {
         Article articleToEdit = this.getArticleById(article.getId());
 
-        if(this.articleRepository.findAllByName(article.getName()).size() > 1){
+        if(this.articleRepository.findAllByName(article.getName()).size() >= 1){
             throw new RequestException(ResponseMessageConstants.ARTICLE_NAME_DUPLICATE, HttpStatus.BAD_REQUEST);
         }
 

@@ -23,14 +23,6 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
-    @RequestMapping(path = "/all", params = { "page", "size" }, method = RequestMethod.GET)
-    public ResponseEntity<Response> getArticles(@RequestParam("page") int page, @RequestParam("size") int size){
-
-        Page<ArticleResponseDto> articlesResponse = this.articleService.findAllArticles(page, size);
-
-        return new ResponseEntity<>(new Response("", articlesResponse), HttpStatus.OK);
-    }
-
     @RequestMapping(path = "/filter", params = { "page", "size" }, method = RequestMethod.POST)
     public ResponseEntity<Response> filterArticles(
             @RequestParam("page") int page,

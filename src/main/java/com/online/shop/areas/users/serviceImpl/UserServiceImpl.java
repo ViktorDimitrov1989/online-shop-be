@@ -1,5 +1,6 @@
 package com.online.shop.areas.users.serviceImpl;
 
+import com.online.shop.areas.cart.entities.ShoppingCart;
 import com.online.shop.areas.users.dto.user.UserResponseDto;
 import com.online.shop.areas.users.entities.Address;
 import com.online.shop.areas.users.entities.Role;
@@ -75,6 +76,7 @@ public class UserServiceImpl implements UserService {
         user.setEnabled(true);
         user.setCredentialsNonExpired(true);
         user.setRegisterDate(new Date());
+        user.setShoppingCart(new ShoppingCart());
 
         Role role = this.roleService.findRoleByAuthority(RoleType.ROLE_USER.name());
 

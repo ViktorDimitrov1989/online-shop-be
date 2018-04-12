@@ -21,7 +21,7 @@ public class Article {
     @Column(name = "photo")
     private String photo;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
 

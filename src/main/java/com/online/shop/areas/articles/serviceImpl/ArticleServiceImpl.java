@@ -7,13 +7,8 @@ import com.online.shop.areas.articles.dto.category.CategoryResponseDto;
 import com.online.shop.areas.articles.dto.colors.ColorResponseDto;
 import com.online.shop.areas.articles.dto.sizes.SizeResponseDto;
 import com.online.shop.areas.articles.entities.*;
-import com.online.shop.areas.articles.enums.Gender;
-import com.online.shop.areas.articles.enums.Season;
 import com.online.shop.areas.articles.enums.Status;
-import com.online.shop.areas.articles.models.binding.CreateArticleBindingModel;
-import com.online.shop.areas.articles.models.binding.EditArticleBindingModel;
-import com.online.shop.areas.articles.models.binding.EditArticleStatusBindingModel;
-import com.online.shop.areas.articles.models.binding.FilterArticlesBindingModel;
+import com.online.shop.areas.articles.models.binding.*;
 import com.online.shop.areas.articles.repositories.ArticleRepository;
 import com.online.shop.areas.articles.services.*;
 import com.online.shop.exception.RequestException;
@@ -27,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -86,7 +80,6 @@ public class ArticleServiceImpl implements ArticleService {
         return resp;
     }
 
-
     @Override
     public Article getArticleById(Long id) {
         Article resp = this.articleRepository.findOneById(id);
@@ -102,7 +95,7 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleResponseDto createArticle(CreateArticleBindingModel createArticleBindingModel, MultipartFile photo) {
         String photoUrl = this.pictureUploader.uploadPic(photo);
 
-        if(this.articleRepository.findAllByName(createArticleBindingModel.getName()).size() > 1){
+        if(this.articleRepository.findAllByName(createArticleBindingModel.getName()).size() >= 1){
             throw new RequestException(ResponseMessageConstants.ARTICLE_NAME_DUPLICATE, HttpStatus.BAD_REQUEST);
         }
 
@@ -138,19 +131,6 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleOptionsResponseDto resp = new ArticleOptionsResponseDto(brands, categories, sizes, colors);
 
         return resp;
-    }
-
-    @Override
-    public Page<ArticleResponseDto> findAllArticles(int page, int size) {
-        Pageable pageCount = PageRequest.of(page, size, Sort.Direction.ASC, "id");
-
-        Page<Article> articles = this.articleRepository.findAll(pageCount);
-
-        List<ArticleResponseDto> resp = this.mapArticlesResponse(articles);
-
-        Page<ArticleResponseDto> respPage = new PageImpl<>(resp, pageCount, this.articleRepository.count());
-
-        return respPage;
     }
 
     @Override
@@ -203,7 +183,7 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleResponseDto editArticle(EditArticleBindingModel article, MultipartFile photo) {
         Article articleToEdit = this.getArticleById(article.getId());
 
-        if(this.articleRepository.findAllByName(article.getName()).size() >= 1){
+        if(this.articleRepository.findAllByName(article.getName()).size() > 1){
             throw new RequestException(ResponseMessageConstants.ARTICLE_NAME_DUPLICATE, HttpStatus.BAD_REQUEST);
         }
 

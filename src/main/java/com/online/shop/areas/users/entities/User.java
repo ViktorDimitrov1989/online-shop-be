@@ -1,5 +1,6 @@
 package com.online.shop.areas.users.entities;
 
+import com.online.shop.areas.cart.entities.ShoppingCart;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -36,6 +37,10 @@ public class User implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shopping_cart_id")
+    private ShoppingCart shoppingCart;
 
     @Column(name = "isAccountNonExpired")
     private boolean isAccountNonExpired;
@@ -173,5 +178,13 @@ public class User implements UserDetails {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
     }
 }

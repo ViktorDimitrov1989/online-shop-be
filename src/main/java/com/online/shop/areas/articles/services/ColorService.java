@@ -14,4 +14,6 @@ public interface ColorService {
     Set<Color> findAllRawColors();
 
     List<ColorResponseDto> findAllColors();
+
+    Color findColorByName(String color);
 }

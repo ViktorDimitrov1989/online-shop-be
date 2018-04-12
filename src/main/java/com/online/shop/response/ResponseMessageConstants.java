@@ -37,6 +37,10 @@ public final class ResponseMessageConstants {
     public static final String INVALID_ARTICLE_ID = "Невалиден артикул.";
     public static final String ARTICLE_NAME_DUPLICATE = "Вече има артикул с това име.";
     public static final String DELETE_ARTICLE_SUCCESS = "Артикула е изтрит успешно.";
+    public static final String INVALID_COLOR_NAME = "Цвят с това име не съществува.";
+    public static final String INVALID_CART_ID = "Невалидно ID на количка.";
+    public static final String EXISTING_SHOPPING_CAR_ARTICLE = "Този артикул вече е добавен във вашата количка.";
+    public static final String INVALID_SHOPPING_CART_ARTICLE_ID = "Невалидно ID на артикул от кошницата.";
 
 
     private ResponseMessageConstants(){}

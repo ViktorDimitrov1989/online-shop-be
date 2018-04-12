@@ -6,6 +6,8 @@ import java.util.List;
 
 public class ShoppingCartResponseDto {
 
+    private Long id;
+
     private List<ShoppingCartArticleResponseDto> articles;
 
     public ShoppingCartResponseDto() {
@@ -17,5 +19,13 @@ public class ShoppingCartResponseDto {
 
     public void setArticles(List<ShoppingCartArticleResponseDto> articles) {
         this.articles = articles;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

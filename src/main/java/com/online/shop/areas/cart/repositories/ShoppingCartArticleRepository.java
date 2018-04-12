@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShoppingCartArticleRepository extends JpaRepository<ShoppingCartArticle, Long> {
+
+    ShoppingCartArticle findOneById(Long id);
+
+
 }

@@ -3,8 +3,11 @@ import com.online.shop.areas.articles.dto.colors.ColorResponseDto;
 import com.online.shop.areas.articles.entities.Color;
 import com.online.shop.areas.articles.repositories.ColorRepository;
 import com.online.shop.areas.articles.services.ColorService;
+import com.online.shop.exception.RequestException;
+import com.online.shop.response.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -43,4 +46,16 @@ public class ColorServiceImpl implements ColorService{
 
         return this.modelMapper.map(colors, targetListType);
     }
+
+    @Override
+    public Color findColorByName(String color) {
+        Color res = this.colorRepository.findOneByName(color);
+
+        if(res == null){
+            throw new RequestException(ResponseMessageConstants.INVALID_COLOR_NAME, HttpStatus.BAD_REQUEST);
+        }
+
+        return res;
+    }
+
 }

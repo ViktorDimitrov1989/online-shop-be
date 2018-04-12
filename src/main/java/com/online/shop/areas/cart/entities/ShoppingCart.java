@@ -1,5 +1,6 @@
 package com.online.shop.areas.cart.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.online.shop.areas.users.entities.User;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class ShoppingCart {
     @OneToMany(mappedBy = "shoppingCart")
     private List<ShoppingCartArticle> articles;
 
+    @JsonIgnore
     @OneToOne(mappedBy="shoppingCart")
     private User owner;
 

@@ -8,6 +8,7 @@ import com.online.shop.exception.RequestException;
 import com.online.shop.response.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -55,5 +56,16 @@ public class SizeServiceImpl implements SizeService{
         Type targetListType = new TypeToken<List<SizeResponseDto>>() {}.getType();
 
         return this.modelMapper.map(sizes, targetListType);
+    }
+
+    @Override
+    public Size findSizeByName(String size) {
+        Size res = this.sizeRepository.findOneByName(size);
+
+        if(res == null){
+            throw new RequestException(ResponseMessageConstants.INVALID_SIZE, HttpStatus.BAD_REQUEST);
+        }
+
+        return res;
     }
 }

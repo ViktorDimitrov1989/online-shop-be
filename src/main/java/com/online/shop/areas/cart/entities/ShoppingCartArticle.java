@@ -36,6 +36,13 @@ public class ShoppingCartArticle {
     public ShoppingCartArticle() {
     }
 
+    public ShoppingCartArticle(Article article, Size chosenSize, Color chosenColor, Integer quantity){
+        this.article = article;
+        this.chosenSize = chosenSize;
+        this.chosenColor = chosenColor;
+        this.quantity = quantity;
+    }
+
     public Long getId() {
         return id;
     }

@@ -11,4 +11,6 @@ import java.util.Set;
 public interface SizeRepository extends JpaRepository<Size, Long> {
 
     Set<Size> findAllByNameIn(Collection<String> name);
+
+    Size findOneByName(String name);
 }

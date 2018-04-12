@@ -1,5 +1,6 @@
 package com.online.shop.areas.users.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.online.shop.areas.cart.entities.ShoppingCart;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -38,6 +39,7 @@ public class User implements UserDetails {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;

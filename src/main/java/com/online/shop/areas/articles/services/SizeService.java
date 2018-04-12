@@ -14,4 +14,6 @@ public interface SizeService {
     Set<Size> findAllRawSizes();
 
     List<SizeResponseDto> findAllSizes();
+
+    Size findSizeByName(String size);
 }

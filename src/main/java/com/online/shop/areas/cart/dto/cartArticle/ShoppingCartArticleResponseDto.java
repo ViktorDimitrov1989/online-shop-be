@@ -14,6 +14,8 @@ public class ShoppingCartArticleResponseDto {
 
     private ColorResponseDto chosenColor;
 
+    private Integer quantity;
+
     public ShoppingCartArticleResponseDto() {
     }
 
@@ -47,5 +49,13 @@ public class ShoppingCartArticleResponseDto {
 
     public void setChosenColor(ColorResponseDto chosenColor) {
         this.chosenColor = chosenColor;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

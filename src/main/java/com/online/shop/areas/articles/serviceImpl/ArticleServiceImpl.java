@@ -174,7 +174,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         List<ArticleResponseDto> resp = this.mapArticlesResponse(articles);
 
-        Page<ArticleResponseDto> respPage = new PageImpl<>(resp, pageCount, this.articleRepository.count());
+        Page<ArticleResponseDto> respPage = new PageImpl<>(resp, pageCount, articles.getTotalElements());
 
         return respPage;
     }

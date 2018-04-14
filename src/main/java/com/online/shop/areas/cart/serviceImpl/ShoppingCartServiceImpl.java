@@ -80,6 +80,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
 
         cartToUpdate.getArticles().add(articleToSave);
+        articleToSave.setShoppingCart(cartToUpdate);
 
         ShoppingCart shoppingCart = this.shoppingCartRepository.save(cartToUpdate);
 
@@ -92,6 +93,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public ShoppingCartResponseDto clearAllShoppingCartArticles(Long shoppingCartId) {
         ShoppingCart cartToUpdate = this.findShoppingCartById(shoppingCartId);
 
+        //TODO
         cartToUpdate.getArticles().clear();
 
         ShoppingCart clearedCart = this.shoppingCartRepository.save(cartToUpdate);

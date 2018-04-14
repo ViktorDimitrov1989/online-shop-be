@@ -41,6 +41,11 @@ public final class ResponseMessageConstants {
     public static final String INVALID_CART_ID = "Невалидно ID на количка.";
     public static final String EXISTING_SHOPPING_CAR_ARTICLE = "Този артикул вече е добавен във вашата количка.";
     public static final String INVALID_SHOPPING_CART_ARTICLE_ID = "Невалидно ID на артикул от кошницата.";
+    public static final String INCREASE_SHOPPING_CART_ARTICLE_SUCCESS = "Количеството на продукта е увеличено.";
+    public static final String DECREASE_SHOPPING_CART_ARTICLE_SUCCESS = "Количеството на продукта е намалено.";
+    public static final String REMOVE_SHOPPING_CART_ARTICLE_SUCCESS = "Продукта е премахнат от количката.";
+    public static final String ADD_SHOPPING_CART_ARTICLE_SUCCESS = "Продукта е добавен в количката.";
+    public static final String CLEAR_BASKET_SUCCESS = "Продуктите са поръчани, очаквайте обаждане от наш служител за потвърждение";
 
 
     private ResponseMessageConstants(){}

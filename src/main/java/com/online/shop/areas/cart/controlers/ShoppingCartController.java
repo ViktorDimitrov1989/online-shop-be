@@ -4,6 +4,7 @@ import com.online.shop.areas.cart.dto.cart.ShoppingCartResponseDto;
 import com.online.shop.areas.cart.models.CreateBasketArticleBindingModel;
 import com.online.shop.areas.cart.services.ShoppingCartService;
 import com.online.shop.response.Response;
+import com.online.shop.response.ResponseMessageConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class ShoppingCartController {
 
         ShoppingCartResponseDto cartResponse = this.shoppingCartService.addShoppingCartArticle(basketArticleModel);
 
-        return new ResponseEntity<>(new Response("", cartResponse), HttpStatus.OK);
+        return new ResponseEntity<>(new Response(ResponseMessageConstants.ADD_SHOPPING_CART_ARTICLE_SUCCESS, cartResponse), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/clear/{shoppingCartId}", method = RequestMethod.POST)
@@ -42,7 +43,7 @@ public class ShoppingCartController {
 
         ShoppingCartResponseDto cartResponse = this.shoppingCartService.clearAllShoppingCartArticles(shoppingCartId);
 
-        return new ResponseEntity<>(new Response("", cartResponse), HttpStatus.OK);
+        return new ResponseEntity<>(new Response(ResponseMessageConstants.CLEAR_BASKET_SUCCESS, cartResponse), HttpStatus.OK);
     }
 
 

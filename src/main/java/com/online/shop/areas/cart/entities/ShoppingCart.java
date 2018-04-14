@@ -14,7 +14,7 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "shoppingCart")
+    @OneToMany(mappedBy = "shoppingCart",orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ShoppingCartArticle> articles;
 
     @JsonIgnore

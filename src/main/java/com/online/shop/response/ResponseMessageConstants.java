@@ -46,6 +46,7 @@ public final class ResponseMessageConstants {
     public static final String REMOVE_SHOPPING_CART_ARTICLE_SUCCESS = "Продукта е премахнат от количката.";
     public static final String ADD_SHOPPING_CART_ARTICLE_SUCCESS = "Продукта е добавен в количката.";
     public static final String CLEAR_BASKET_SUCCESS = "Продуктите са поръчани, очаквайте обаждане от наш служител за потвърждение";
+    public static final String ARTICLE_IS_PURCHASED = "Този артикул е поръчан от потребител и не може да бъде изтрит.";
 
 
     private ResponseMessageConstants(){}

@@ -1,7 +1,6 @@
 package com.online.shop.areas.articles.serviceImpl;
 import com.online.shop.areas.articles.dto.article.ArticleOptionsResponseDto;
 import com.online.shop.areas.articles.dto.article.ArticleResponseDto;
-import com.online.shop.areas.articles.dto.articleStatus.ArticleStatusResponseDto;
 import com.online.shop.areas.articles.dto.brand.BrandResponseDto;
 import com.online.shop.areas.articles.dto.category.CategoryResponseDto;
 import com.online.shop.areas.articles.dto.colors.ColorResponseDto;
@@ -11,6 +10,7 @@ import com.online.shop.areas.articles.enums.Status;
 import com.online.shop.areas.articles.models.binding.*;
 import com.online.shop.areas.articles.repositories.ArticleRepository;
 import com.online.shop.areas.articles.services.*;
+import com.online.shop.areas.cart.services.ShoppingCartArticleService;
 import com.online.shop.exception.RequestException;
 import com.online.shop.response.ResponseMessageConstants;
 import com.online.shop.utils.PictureUploader;
@@ -208,6 +208,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleResponseDto deleteArticleById(Long id) {
         Article articleToDelete = this.getArticleById(id);
+
+        if(articleToDelete.getArticles().size() > 0){
+            throw new RequestException(ResponseMessageConstants.ARTICLE_IS_PURCHASED, HttpStatus.BAD_REQUEST);
+        }
 
         this.articleRepository.delete(articleToDelete);
 

@@ -93,7 +93,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public ShoppingCartResponseDto clearAllShoppingCartArticles(Long shoppingCartId) {
         ShoppingCart cartToUpdate = this.findShoppingCartById(shoppingCartId);
 
-        //TODO
         cartToUpdate.getArticles().clear();
 
         ShoppingCart clearedCart = this.shoppingCartRepository.save(cartToUpdate);

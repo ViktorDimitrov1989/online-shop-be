@@ -9,5 +9,4 @@ public interface ShoppingCartArticleRepository extends JpaRepository<ShoppingCar
 
     ShoppingCartArticle findOneById(Long id);
 
-
 }

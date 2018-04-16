@@ -1,5 +1,7 @@
 package com.online.shop.areas.articles.entities;
 
+import com.online.shop.areas.cart.entities.ShoppingCartArticle;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -47,6 +49,9 @@ public class Article {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @OneToMany(mappedBy = "article")
+    private Set<ShoppingCartArticle> articles;
 
     public Article() {
     }
@@ -129,5 +134,13 @@ public class Article {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Set<ShoppingCartArticle> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(Set<ShoppingCartArticle> articles) {
+        this.articles = articles;
     }
 }

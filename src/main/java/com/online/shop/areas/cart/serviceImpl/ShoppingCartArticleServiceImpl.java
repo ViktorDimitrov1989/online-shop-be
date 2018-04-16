@@ -1,5 +1,6 @@
 package com.online.shop.areas.cart.serviceImpl;
 
+import com.online.shop.areas.articles.entities.Article;
 import com.online.shop.areas.cart.dto.cart.ShoppingCartResponseDto;
 import com.online.shop.areas.cart.entities.ShoppingCartArticle;
 import com.online.shop.areas.cart.repositories.ShoppingCartArticleRepository;
@@ -11,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ShoppingCartArticleServiceImpl implements ShoppingCartArticleService {

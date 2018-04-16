@@ -27,6 +27,14 @@ public class ArticleStatus {
     public ArticleStatus() {
     }
 
+    public ArticleStatus(Long id, Status status, Date expireDate, int discount, boolean available) {
+        this.id = id;
+        this.status = status;
+        this.expireDate = expireDate;
+        this.discount = discount;
+        this.available = available;
+    }
+
     public Long getId() {
         return id;
     }

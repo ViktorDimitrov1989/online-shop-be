@@ -1,5 +1,4 @@
 package com.online.shop.areas.cart.services;
-
 import com.online.shop.areas.cart.dto.cart.ShoppingCartResponseDto;
 
 public interface ShoppingCartArticleService {

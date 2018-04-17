@@ -32,4 +32,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Collection<Article> findAllByName(String name);
 
+    @Query(value = "SELECT * FROM articles ORDER BY id DESC LIMIT 7", nativeQuery = true)
+    List<Article> findLastAddedArticles();
+
 }

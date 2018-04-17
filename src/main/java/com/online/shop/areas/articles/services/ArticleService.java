@@ -23,4 +23,6 @@ public interface ArticleService {
     ArticleResponseDto editArticle(EditArticleBindingModel article, MultipartFile photo);
 
     ArticleResponseDto deleteArticleById(Long id);
+
+    List<ArticleResponseDto> getAdverts();
 }

@@ -15,12 +15,14 @@ import com.online.shop.exception.RequestException;
 import com.online.shop.response.ResponseMessageConstants;
 import com.online.shop.utils.PictureUploader;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -216,6 +218,16 @@ public class ArticleServiceImpl implements ArticleService {
         this.articleRepository.delete(articleToDelete);
 
         return this.modelMapper.map(articleToDelete, ArticleResponseDto.class);
+    }
+
+    @Override
+    public List<ArticleResponseDto> getAdverts() {
+        List<Article> articles = this.articleRepository.findLastAddedArticles();
+
+        Type listType = new TypeToken<List<ArticleResponseDto>>() {}.getType();
+
+        List<ArticleResponseDto> articlesResponse = this.modelMapper.map(articles, listType);
+        return articlesResponse;
     }
 
 }

@@ -67,7 +67,7 @@ public class ArticleServiceImpl implements ArticleService {
         this.pictureUploader = pictureUploader;
     }
 
-    private List<ArticleResponseDto> mapArticlesResponse(Page<Article> articles){
+    private List<ArticleResponseDto> mapArticlesResponse(Iterable<Article> articles){
         List<ArticleResponseDto> resp = new ArrayList<>();
 
         for (Article article : articles) {
@@ -224,9 +224,8 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleResponseDto> getAdverts() {
         List<Article> articles = this.articleRepository.findLastAddedArticles();
 
-        Type listType = new TypeToken<List<ArticleResponseDto>>() {}.getType();
+        List<ArticleResponseDto> articlesResponse = this.mapArticlesResponse(articles);
 
-        List<ArticleResponseDto> articlesResponse = this.modelMapper.map(articles, listType);
         return articlesResponse;
     }
 

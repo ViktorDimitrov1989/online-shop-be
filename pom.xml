@@ -83,6 +83,12 @@
 			<version>1.11.301</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 
 	</dependencies>
 

@@ -5,6 +5,7 @@ import com.online.shop.areas.articles.dto.brand.BrandResponseDto;
 import com.online.shop.areas.articles.dto.category.CategoryResponseDto;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 public class ArticleResponseDto {
@@ -31,6 +32,8 @@ public class ArticleResponseDto {
     private CategoryResponseDto category;
 
     public ArticleResponseDto() {
+        this.sizes = new HashSet<>();
+        this.colors = new HashSet<>();
     }
 
     public Long getId() {

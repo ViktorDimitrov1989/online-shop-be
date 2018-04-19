@@ -67,16 +67,19 @@ public class ArticleServiceImpl implements ArticleService {
         this.pictureUploader = pictureUploader;
     }
 
-    private List<ArticleResponseDto> mapArticlesResponse(Iterable<Article> articles){
+    public List<ArticleResponseDto> mapArticlesResponse(Iterable<Article> articles){
         List<ArticleResponseDto> resp = new ArrayList<>();
 
         for (Article article : articles) {
             ArticleResponseDto articleResp = this.modelMapper.map(article, ArticleResponseDto.class);
 
-            articleResp.setColors(article.getColors().stream().map(Color::getName).collect(Collectors.toSet()));
-            articleResp.setSizes(article.getSizes().stream().map(Size::getName).collect(Collectors.toSet()));
+            if(articleResp != null){
+                articleResp.setColors(article.getColors().stream().map(Color::getName).collect(Collectors.toSet()));
+                articleResp.setSizes(article.getSizes().stream().map(Size::getName).collect(Collectors.toSet()));
 
-            resp.add(articleResp);
+                resp.add(articleResp);
+            }
+
         }
 
         return resp;
@@ -137,6 +140,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<ArticleResponseDto> findFilteredArticles(int page, int size, FilterArticlesBindingModel filterArticlesBindingModel) {
+
+        if(page < 0 || size < 1){
+            throw new RequestException(ResponseMessageConstants.INVALID_PAGE_OR_PAGE_SIZE, HttpStatus.BAD_REQUEST);
+        }
+
         Pageable pageCount = PageRequest.of(page, size, Sort.Direction.ASC, "id");
 
         Set<Size> selectedSizes = this.sizeService.findAllSizesIn(filterArticlesBindingModel.getSelectedSizes());

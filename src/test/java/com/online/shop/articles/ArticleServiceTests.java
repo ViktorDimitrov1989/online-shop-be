@@ -1,5 +1,9 @@
 package com.online.shop.articles;
 import com.online.shop.areas.articles.dto.article.ArticleResponseDto;
+import com.online.shop.areas.articles.dto.brand.BrandResponseDto;
+import com.online.shop.areas.articles.dto.category.CategoryResponseDto;
+import com.online.shop.areas.articles.dto.colors.ColorResponseDto;
+import com.online.shop.areas.articles.dto.sizes.SizeResponseDto;
 import com.online.shop.areas.articles.entities.*;
 import com.online.shop.areas.articles.enums.Gender;
 import com.online.shop.areas.articles.enums.Season;
@@ -39,9 +43,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 @ActiveProfiles("test")
 public class ArticleServiceTests {
-
-    /*@Autowired
-    private TestEntityManager testEntityManager;*/
 
     @Mock
     private ArticleStatusServiceImpl articleStatusService;
@@ -202,7 +203,6 @@ public class ArticleServiceTests {
 
         doReturn(articleToCreate).when(this.articleRepository).save(articleToCreate);
 
-
         ArticleResponseDto response = this.realModelMapper.map(articleToCreate, ArticleResponseDto.class);
         doReturn(response).when(this.modelMapper).map(articleToCreate, ArticleResponseDto.class);
 
@@ -237,6 +237,16 @@ public class ArticleServiceTests {
     @Test(expected = RequestException.class)
     public void testGetArticleById_WithInvalidId_ShouldThrowException(){
         assertNotNull("Exception was not thrown on invalid article ID.",this.articleService.getArticleById(10L));
+    }
+
+    @Test
+    public void testGetArticleOptions_ShouldNotBeNull(){
+        doReturn(new ArrayList<BrandResponseDto>(){{add(new BrandResponseDto());}}).when(this.brandService).findAllBrands();
+        doReturn(new ArrayList<CategoryResponseDto>(){{add(new CategoryResponseDto());}}).when(this.categoryService).findAllCategories();
+        doReturn(new ArrayList<ColorResponseDto>(){{add(new ColorResponseDto());}}).when(this.colorService).findAllColors();
+        doReturn(new ArrayList<SizeResponseDto>(){{add(new SizeResponseDto());}}).when(this.sizeService).findAllSizes();
+
+        assertNotNull("ArticleOptionsResponseDto is null.", this.articleService.getArticleOptions());
     }
 
 

@@ -1,6 +1,4 @@
 package com.online.shop.articles;
-
-
 import com.online.shop.areas.articles.dto.article.ArticleResponseDto;
 import com.online.shop.areas.articles.entities.*;
 import com.online.shop.areas.articles.enums.Gender;
@@ -9,7 +7,6 @@ import com.online.shop.areas.articles.enums.Status;
 import com.online.shop.areas.articles.models.binding.CreateArticleBindingModel;
 import com.online.shop.areas.articles.repositories.ArticleRepository;
 import com.online.shop.areas.articles.serviceImpl.*;
-import com.online.shop.areas.articles.services.*;
 import com.online.shop.utils.PictureUploader;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,35 +14,33 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
-@DataJpaTest
+@RunWith(MockitoJUnitRunner.class)
 @ActiveProfiles("test")
 public class ArticleServiceTests {
 
-    @Autowired
-    private TestEntityManager testEntityManager;
+    /*@Autowired
+    private TestEntityManager testEntityManager;*/
 
     @Mock
     private ArticleStatusServiceImpl articleStatusService;
@@ -104,6 +99,7 @@ public class ArticleServiceTests {
 
     @Before
     public void init(){
+        MockitoAnnotations.initMocks(this);
 
         this.testArticle = new CreateArticleBindingModel();
         this.testArticle.setName("Панталони");
@@ -125,29 +121,25 @@ public class ArticleServiceTests {
         brandToReturn.setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been");
         brandToReturn.setName("Nike");
 
-        when(this.brandService.findBrandByName(this.testArticle.getBrandName()))
-                .thenReturn(brandToReturn);
+        doReturn(brandToReturn).when(this.brandService).findBrandByName(this.testArticle.getBrandName());
 
         String pictureUrl = "pictureUrl";
-        try {
-            when(this.pictureUploader.uploadPic(getImage()))
-                    .thenReturn(pictureUrl);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+            /*when(this.pictureUploader.uploadPic(getImage()))
+                    .thenReturn(pictureUrl);*/
+            doReturn(pictureUrl).when(this.pictureUploader).uploadPic(any());
+
 
         Size sizeToReturn = new Size();
         sizeToReturn.setId(1L);
         sizeToReturn.setName("M");
-        when(this.sizeService.findAllSizesIn(this.testArticle.getSizes()))
-            .thenReturn(new HashSet<>(){{add(sizeToReturn);}});
+        doReturn(new HashSet<>(){{add(sizeToReturn);}}).when(this.sizeService).findAllSizesIn(this.testArticle.getSizes());
 
         Color colorToReturn = new Color();
         colorToReturn.setId(1L);
         colorToReturn.setName("Червен");
 
-        when(this.colorService.findAllColorsIn(this.testArticle.getColors()))
-                .thenReturn(new HashSet<>(){{add(colorToReturn);}});
+        doReturn(new HashSet<>(){{add(colorToReturn);}}).when(this.colorService).findAllColorsIn(this.testArticle.getColors());
 
 
         ArticleStatus articleStatusToReturn = new ArticleStatus();
@@ -164,8 +156,7 @@ public class ArticleServiceTests {
         categoryToReturn.setName("Панталони");
         categoryToReturn.setSeason(Season.SPRING_SUMMER);
 
-        when(this.categoryService.findCategoryById(1L))
-                .thenReturn(categoryToReturn);
+        doReturn(categoryToReturn).when(this.categoryService).findCategoryById(1L);
 
 
         Article article = new Article();
@@ -181,8 +172,36 @@ public class ArticleServiceTests {
         article.setId(1L);
         article.setArticles(new HashSet<>());
 
-        when(this.articleRepository.save(article))
-                .thenAnswer(a -> a.getArgument(0));
+
+        Article articleToCreate = new Article();
+        articleToCreate.setName(this.testArticle.getName());
+        articleToCreate.setPhoto(pictureUrl);
+        articleToCreate.setDescription(this.testArticle.getDescription());
+        articleToCreate.setPrice(this.testArticle.getPrice());
+        doReturn(articleToCreate).when(this.modelMapper).map(this.testArticle, Article.class);
+
+        ArticleStatus articleStatusToReturnFromModelMapper = new ArticleStatus();
+        articleStatusToReturnFromModelMapper.setAvailable(this.testArticle.isAvailable());
+        articleStatusToReturnFromModelMapper.setDiscount(this.testArticle.getDiscount());
+        articleStatusToReturnFromModelMapper.setExpireDate(this.testArticle.getExpireDate());
+        articleStatusToReturnFromModelMapper.setStatus(this.testArticle.getStatus());
+        doReturn(articleStatusToReturnFromModelMapper).when(this.modelMapper).map(this.testArticle, ArticleStatus.class);
+
+        articleStatusToReturnFromModelMapper.setId(1L);
+        doReturn(articleStatusToReturnFromModelMapper).when(this.articleStatusService).createArticleStatus(articleStatusToReturnFromModelMapper);
+
+        articleToCreate.setSizes(this.sizeService.findAllSizesIn(this.testArticle.getSizes()));
+        articleToCreate.setColors(this.colorService.findAllColorsIn(this.testArticle.getColors()));
+        articleToCreate.setStatus(articleStatusToReturnFromModelMapper);
+        articleToCreate.setCategory(this.categoryService.findCategoryById(1L));
+        articleToCreate.setId(1L);
+
+        doReturn(articleToCreate).when(this.articleRepository).save(articleToCreate);
+
+
+        ArticleResponseDto expectedResponse = new ArticleResponseDto();
+
+
 
     }
 

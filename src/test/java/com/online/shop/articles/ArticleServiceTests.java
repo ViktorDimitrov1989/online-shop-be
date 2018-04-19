@@ -23,7 +23,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,6 +68,7 @@ public class ArticleServiceTests {
     @InjectMocks
     private ArticleServiceImpl articleService;
 
+    private ModelMapper realModelMapper;
 
     private CreateArticleBindingModel testArticle;
 
@@ -99,6 +99,7 @@ public class ArticleServiceTests {
 
     @Before
     public void init(){
+        this.realModelMapper = new ModelMapper();
         MockitoAnnotations.initMocks(this);
 
         this.testArticle = new CreateArticleBindingModel();
@@ -194,15 +195,19 @@ public class ArticleServiceTests {
         articleToCreate.setColors(this.colorService.findAllColorsIn(this.testArticle.getColors()));
         articleToCreate.setStatus(articleStatusToReturnFromModelMapper);
         articleToCreate.setCategory(this.categoryService.findCategoryById(1L));
+        articleToCreate.setBrand(brandToReturn);
         articleToCreate.setId(1L);
 
         doReturn(articleToCreate).when(this.articleRepository).save(articleToCreate);
 
 
-        ArticleResponseDto expectedResponse = new ArticleResponseDto();
+        ArticleResponseDto response = this.realModelMapper.map(articleToCreate, ArticleResponseDto.class);
+        doReturn(response).when(this.modelMapper).map(articleToCreate, ArticleResponseDto.class);
 
+        response.setSizes(articleToCreate.getSizes().stream().map(Size::getName).collect(Collectors.toSet()));
+        response.setColors(articleToCreate.getColors().stream().map(Color::getName).collect(Collectors.toSet()));
 
-
+        when(this.articleService.createArticle(this.testArticle, any())).thenReturn(response);
     }
 
 

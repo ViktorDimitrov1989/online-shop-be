@@ -114,7 +114,7 @@ public class ArticleServiceImpl implements ArticleService {
         article.setStatus(this.articleStatusService.createArticleStatus(status));
         article.setCategory(this.categoryService.findCategoryById(createArticleBindingModel.getCategory()));
 
-        Article createdArticle  = this.articleRepository.save(article);
+        Article createdArticle = this.articleRepository.save(article);
 
         ArticleResponseDto articleResponse = this.modelMapper.map(createdArticle, ArticleResponseDto.class);
         articleResponse.setSizes(createdArticle.getSizes().stream().map(Size::getName).collect(Collectors.toSet()));

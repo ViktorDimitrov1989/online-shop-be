@@ -7,6 +7,7 @@ import com.online.shop.areas.articles.enums.Status;
 import com.online.shop.areas.articles.models.binding.CreateArticleBindingModel;
 import com.online.shop.areas.articles.repositories.ArticleRepository;
 import com.online.shop.areas.articles.serviceImpl.*;
+import com.online.shop.exception.RequestException;
 import com.online.shop.utils.PictureUploader;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
@@ -208,14 +210,33 @@ public class ArticleServiceTests {
         response.setColors(articleToCreate.getColors().stream().map(Color::getName).collect(Collectors.toSet()));
 
         when(this.articleService.createArticle(this.testArticle, any())).thenReturn(response);
+        doReturn(articleToCreate).when(this.articleRepository).findOneById(articleToCreate.getId());
+
     }
 
 
     @Test
-    public void testCreateArticle_WitValidArticle_ShouldNotReturnNull() throws IOException {
+    public void testCreateArticle_WithValidArticle_ShouldNotReturnNull() throws IOException {
         ArticleResponseDto articleResponse = this.articleService.createArticle(this.testArticle, getImage());
 
-        Assert.assertNotNull("Article response object is null after creation.", articleResponse);
+        assertNotNull("Article response object is null after creation.", articleResponse);
+    }
+
+    @Test(expected = RequestException.class)
+    public void testCreateArticle_WithDuplicateArticleName_ShouldThrowException() throws IOException {
+        doReturn(new HashSet<Article>(){{add(new Article());}}).when(this.articleRepository).findAllByName(this.testArticle.getName());
+
+        this.articleService.createArticle(this.testArticle, getImage());
+    }
+
+    @Test
+    public void testGetArticleById_WithValidId_ShouldReturnValidResult(){
+        assertNotNull("Article object is null",this.articleService.getArticleById(1L));
+    }
+
+    @Test(expected = RequestException.class)
+    public void testGetArticleById_WithInvalidId_ShouldThrowException(){
+        assertNotNull("Exception was not thrown on invalid article ID.",this.articleService.getArticleById(10L));
     }
 
 

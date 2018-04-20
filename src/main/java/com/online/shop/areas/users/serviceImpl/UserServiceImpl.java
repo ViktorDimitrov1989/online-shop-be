@@ -67,7 +67,6 @@ public class UserServiceImpl implements UserService {
             throw new RequestException(ResponseMessageConstants.PHONE_NUMBER_ALREADY_TAKEN, HttpStatus.BAD_REQUEST);
         }
 
-
         User user = this.modelMapper.map(registrationModel, User.class);
         String encryptedPassword = this.bCryptPasswordEncoder.encode(registrationModel.getPassword());
         user.setPassword(encryptedPassword);

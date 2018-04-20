@@ -38,7 +38,7 @@ public class BrandServiceImpl implements BrandService {
             throw new RequestException(ResponseMessageConstants.EXISTING_BRAND_NAME, HttpStatus.CONFLICT);
         }
 
-        Brand brand = this.modelMapper. map(createBrandBindingModel, Brand.class);
+        Brand brand = this.modelMapper.map(createBrandBindingModel, Brand.class);
 
         Brand createdBrand = this.brandRepository.save(brand);
 

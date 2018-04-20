@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
@@ -100,6 +101,8 @@ public class FilterArticlesServiceTests {
                 .when(this.categoryService)
                 .findCategoriesByIds(this.filterArticlesBindingModel.getSelectedCategories());
 
+
+
         Article articleToMap = new Article();
         articleToMap.setId(1L);
         articleToMap.setCategory(new Category());
@@ -111,7 +114,6 @@ public class FilterArticlesServiceTests {
         articleToMap.setColors(new HashSet<>());
         articleToMap.setDescription("ut also the leap into electronic typesetting, remaining essentially unchanged. It was pop");
         articleToMap.setStatus(new ArticleStatus());
-
 
         doReturn(new ArticleResponseDto()).when(this.modelMapper).map(articleToMap, ArticleResponseDto.class);
 
@@ -133,8 +135,33 @@ public class FilterArticlesServiceTests {
 
     @Test
     public void testFindFilteredArticles_WithCorrectFilterData_BrandsShouldNotBeNull(){
-
         assertNotNull("ArticleOptionsResponseDto is null when all filters are filled.", this.articleService.findFilteredArticles(CORRECT_PAGE_CNT,CORRECT_PAGE_CONTENT_CNT, this.filterArticlesBindingModel));
+    }
+
+   @Test
+    public void testFindFilteredArticles_WithCorrectFilterData_PageShouldBeWithCorrectIndex(){
+        Page<ArticleResponseDto> page =  this.articleService.findFilteredArticles(CORRECT_PAGE_CNT,CORRECT_PAGE_CONTENT_CNT, this.filterArticlesBindingModel);
+
+        assertTrue("Incorrect page index.", page.getPageable().getPageNumber() == CORRECT_PAGE_CNT);
+    }
+
+    @Test
+    public void testFindFilteredArticles_WithCorrectFilterData_PageSizeShouldBeWithCorrectSize(){
+        Page<ArticleResponseDto> page =  this.articleService.findFilteredArticles(CORRECT_PAGE_CNT,CORRECT_PAGE_CONTENT_CNT, this.filterArticlesBindingModel);
+
+        assertTrue("Incorrect page size.", page.getPageable().getPageSize() == CORRECT_PAGE_CONTENT_CNT);
+    }
+
+    @Test(expected = RequestException.class)
+    public void testFindFilteredArticles_WithIncorrectPageCnt_ShouldThrowRequestException(){
+        assertNotNull("Exception was not thrown on invalid page index.",
+                this.articleService.findFilteredArticles(INCORRECT_PAGE_CNT, CORRECT_PAGE_CONTENT_CNT, this.filterArticlesBindingModel));
+    }
+
+    @Test(expected = RequestException.class)
+    public void testFindFilteredArticles_WithIncorrectPageSizeCnt_ShouldThrowRequestException(){
+        assertNotNull("Exception was not thrown on invalid page size.",
+                this.articleService.findFilteredArticles(CORRECT_PAGE_CNT, INCORRECT_PAGE_CONTENT_CNT, this.filterArticlesBindingModel));
     }
 
     @Test
@@ -244,18 +271,6 @@ public class FilterArticlesServiceTests {
 
         assertNotNull("ArticleOptionsResponseDto is null when no category is selected.",
                 this.articleService.findFilteredArticles(CORRECT_PAGE_CNT,CORRECT_PAGE_CONTENT_CNT, this.filterArticlesBindingModel));
-    }
-
-    @Test(expected = RequestException.class)
-    public void testFindFilteredArticles_WithIncorrectPageCnt_ShouldThrowRequestException(){
-        assertNotNull("Exception was not thrown on invalid page index.",
-                this.articleService.findFilteredArticles(INCORRECT_PAGE_CNT, CORRECT_PAGE_CONTENT_CNT, this.filterArticlesBindingModel));
-    }
-
-    @Test(expected = RequestException.class)
-    public void testFindFilteredArticles_WithIncorrectPageSizeCnt_ShouldThrowRequestException(){
-        assertNotNull("Exception was not thrown on invalid page size.",
-                this.articleService.findFilteredArticles(CORRECT_PAGE_CNT, INCORRECT_PAGE_CONTENT_CNT, this.filterArticlesBindingModel));
     }
 
 }

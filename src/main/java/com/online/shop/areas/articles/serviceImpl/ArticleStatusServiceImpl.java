@@ -9,6 +9,7 @@ import com.online.shop.exception.RequestException;
 import com.online.shop.response.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class ArticleStatusServiceImpl implements ArticleStatusService {
 
     private ModelMapper modelMapper;
 
+    @Autowired
     public ArticleStatusServiceImpl(ArticleStatusRepository articleStatusRepository, ModelMapper modelMapper) {
         this.articleStatusRepository = articleStatusRepository;
         this.modelMapper = modelMapper;

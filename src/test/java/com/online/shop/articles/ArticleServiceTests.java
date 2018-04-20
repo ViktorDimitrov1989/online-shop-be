@@ -11,11 +11,13 @@ import com.online.shop.areas.articles.enums.Status;
 import com.online.shop.areas.articles.models.binding.CreateArticleBindingModel;
 import com.online.shop.areas.articles.repositories.ArticleRepository;
 import com.online.shop.areas.articles.serviceImpl.*;
+import com.online.shop.areas.cart.entities.ShoppingCartArticle;
 import com.online.shop.exception.RequestException;
 import com.online.shop.utils.PictureUploader;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.Request;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -249,6 +251,38 @@ public class ArticleServiceTests {
         assertNotNull("ArticleOptionsResponseDto is null.", this.articleService.getArticleOptions());
     }
 
+    @Test
+    public void testDeleteArticleById_WithValidId_ShouldReturnDeletedArticle(){
+        Article articleToDelete = new Article();
+        articleToDelete.setArticles(new HashSet<>());
+
+        ArticleResponseDto responseArticle = new ArticleResponseDto();
+
+        when(this.articleService.getArticleById(1L)).thenReturn(articleToDelete);
+        doReturn(responseArticle).when(this.modelMapper).map(articleToDelete, ArticleResponseDto.class);
+
+        assertNotNull("Deleted article response is null.", this.articleService.deleteArticleById(1L));
+    }
+
+    @Test(expected = RequestException.class)
+    public void testDeleteArticleById_WithInValid_ShouldThrowException(){
+        Article articleToDelete = new Article();
+        articleToDelete.setArticles(new HashSet<>());
+
+        when(this.articleService.getArticleById(1L)).thenReturn(articleToDelete);
+
+        assertNotNull("Exception was not thrown on invalid article id.", this.articleService.deleteArticleById(2L));
+    }
+
+    @Test(expected = RequestException.class)
+    public void testDeleteArticleById_WithShoppingCartArticleExisting_ShouldThrowException(){
+        Article articleToDelete = new Article();
+        articleToDelete.setArticles(new HashSet<>(){{add(new ShoppingCartArticle());}});
+
+        when(this.articleService.getArticleById(1L)).thenReturn(articleToDelete);
+
+        assertNotNull("Exception was not thrown on invalid article id.", this.articleService.deleteArticleById(1L));
+    }
 
 
 }

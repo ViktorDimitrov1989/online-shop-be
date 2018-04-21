@@ -57,12 +57,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto createCategory(CreateCategoryBindingModel createCategoryBindingModel) {
 
-        if(this.categoryRepository.findOneByNameAndGenderAndSeason(createCategoryBindingModel.getName(),
-                Gender.valueOf(createCategoryBindingModel.getGender()),
-                        Season.valueOf(createCategoryBindingModel.getSeason())) != null){
-            throw  new RequestException(ResponseMessageConstants.EXISTING_CATEGORY, HttpStatus.CONFLICT);
-        }
-
         if(!Season.isPresent(createCategoryBindingModel.getSeason())){
             throw  new RequestException(ResponseMessageConstants.INVALID_SEASON, HttpStatus.CONFLICT);
         }
@@ -70,6 +64,14 @@ public class CategoryServiceImpl implements CategoryService {
         if(!Gender.isPresent(createCategoryBindingModel.getGender())){
             throw  new RequestException(ResponseMessageConstants.INVALID_GENDER, HttpStatus.CONFLICT);
         }
+
+        if(this.categoryRepository.findOneByNameAndGenderAndSeason(createCategoryBindingModel.getName(),
+                Gender.valueOf(createCategoryBindingModel.getGender()),
+                        Season.valueOf(createCategoryBindingModel.getSeason())) != null){
+            throw  new RequestException(ResponseMessageConstants.EXISTING_CATEGORY, HttpStatus.CONFLICT);
+        }
+
+
 
         Category category = this.modelMapper.map(createCategoryBindingModel, Category.class);
 

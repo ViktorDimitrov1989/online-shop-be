@@ -244,8 +244,12 @@ public class ArticleServiceTests {
 
     @Test
     public void testGetArticleOptions_ShouldNotBeNull(){
+        CategoryResponseDto categoryToReturn = new CategoryResponseDto();
+        categoryToReturn.setGender("GIRLS");
+        categoryToReturn.setSeason("FALL_WINTER");
+
         doReturn(new ArrayList<BrandResponseDto>(){{add(new BrandResponseDto());}}).when(this.brandService).findAllBrands();
-        doReturn(new ArrayList<CategoryResponseDto>(){{add(new CategoryResponseDto());}}).when(this.categoryService).findAllCategories();
+        doReturn(new ArrayList<CategoryResponseDto>(){{add(categoryToReturn);}}).when(this.categoryService).findAllCategories();
         doReturn(new ArrayList<ColorResponseDto>(){{add(new ColorResponseDto());}}).when(this.colorService).findAllColors();
         doReturn(new ArrayList<SizeResponseDto>(){{add(new SizeResponseDto());}}).when(this.sizeService).findAllSizes();
 

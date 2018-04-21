@@ -9,6 +9,7 @@ import com.online.shop.areas.articles.enums.Gender;
 import com.online.shop.areas.articles.enums.Season;
 import com.online.shop.areas.articles.enums.Status;
 import com.online.shop.areas.articles.models.binding.CreateArticleBindingModel;
+import com.online.shop.areas.articles.models.binding.GetOptionsBindingModel;
 import com.online.shop.areas.articles.repositories.ArticleRepository;
 import com.online.shop.areas.articles.serviceImpl.*;
 import com.online.shop.areas.cart.entities.ShoppingCartArticle;
@@ -248,7 +249,8 @@ public class ArticleServiceTests {
         doReturn(new ArrayList<ColorResponseDto>(){{add(new ColorResponseDto());}}).when(this.colorService).findAllColors();
         doReturn(new ArrayList<SizeResponseDto>(){{add(new SizeResponseDto());}}).when(this.sizeService).findAllSizes();
 
-        assertNotNull("ArticleOptionsResponseDto is null.", this.articleService.getArticleOptions());
+        assertNotNull("ArticleOptionsResponseDto is null.", this.articleService
+                .getArticleOptionsBySeasonAndGender(new GetOptionsBindingModel(Gender.BOYS , Season.SPRING_SUMMER, false)));
     }
 
     @Test

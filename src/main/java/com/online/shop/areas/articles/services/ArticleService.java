@@ -16,7 +16,7 @@ public interface ArticleService {
 
     ArticleResponseDto createArticle(CreateArticleBindingModel createArticleBindingModel, MultipartFile photo);
 
-    ArticleOptionsResponseDto getArticleOptions();
+    ArticleOptionsResponseDto getArticleOptionsBySeasonAndGender(GetOptionsBindingModel getOptionsBindingModel);
 
     Page<ArticleResponseDto> findFilteredArticles(int page, int size, FilterArticlesBindingModel filterArticlesBindingModel);
 

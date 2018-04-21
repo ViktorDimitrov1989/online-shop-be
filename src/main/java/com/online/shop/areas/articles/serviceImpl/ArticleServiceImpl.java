@@ -6,6 +6,8 @@ import com.online.shop.areas.articles.dto.category.CategoryResponseDto;
 import com.online.shop.areas.articles.dto.colors.ColorResponseDto;
 import com.online.shop.areas.articles.dto.sizes.SizeResponseDto;
 import com.online.shop.areas.articles.entities.*;
+import com.online.shop.areas.articles.enums.Gender;
+import com.online.shop.areas.articles.enums.Season;
 import com.online.shop.areas.articles.enums.Status;
 import com.online.shop.areas.articles.models.binding.*;
 import com.online.shop.areas.articles.repositories.ArticleRepository;
@@ -127,9 +129,19 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleOptionsResponseDto getArticleOptions() {
+    public ArticleOptionsResponseDto getArticleOptionsBySeasonAndGender(GetOptionsBindingModel getOptionsBindingModel) {
+        List<CategoryResponseDto> categories = new ArrayList<>();
+
+        if(!getOptionsBindingModel.getAll()){
+            categories = this.categoryService.findAllCategories()
+                    .stream().filter(c -> c.getGender().equals(getOptionsBindingModel.getGender().name())
+                            && c.getSeason().equals(getOptionsBindingModel.getSeason().name()))
+                    .collect(Collectors.toList());
+        }else{
+            categories = this.categoryService.findAllCategories();
+        }
+
         List<BrandResponseDto> brands = this.brandService.findAllBrands();
-        List<CategoryResponseDto> categories = this.categoryService.findAllCategories();
         List<ColorResponseDto> colors = this.colorService.findAllColors();
         List<SizeResponseDto> sizes = this.sizeService.findAllSizes();
 

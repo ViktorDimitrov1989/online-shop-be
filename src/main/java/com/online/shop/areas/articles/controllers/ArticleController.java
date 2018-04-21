@@ -3,6 +3,7 @@ package com.online.shop.areas.articles.controllers;
 import com.online.shop.areas.articles.dto.article.ArticleOptionsResponseDto;
 import com.online.shop.areas.articles.dto.article.ArticleResponseDto;
 import com.online.shop.areas.articles.models.binding.FilterArticlesBindingModel;
+import com.online.shop.areas.articles.models.binding.GetOptionsBindingModel;
 import com.online.shop.areas.articles.services.ArticleService;
 import com.online.shop.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,10 @@ public class ArticleController {
         return new ResponseEntity<>(new Response("", articlesResponse), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/options", method = RequestMethod.GET)
-    public ResponseEntity<Response> getArticleOptions(){
+    @RequestMapping(path = "/options", method = RequestMethod.POST)
+    public ResponseEntity<Response> getArticleOptionsBySeasonAndGender(@RequestBody GetOptionsBindingModel getOptionsBindingModel){
 
-        ArticleOptionsResponseDto articleOptions = this.articleService.getArticleOptions();
+        ArticleOptionsResponseDto articleOptions = this.articleService.getArticleOptionsBySeasonAndGender(getOptionsBindingModel);
 
         return new ResponseEntity<>(new Response("", articleOptions), HttpStatus.OK);
     }

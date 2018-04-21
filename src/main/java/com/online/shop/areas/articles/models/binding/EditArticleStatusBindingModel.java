@@ -22,7 +22,6 @@ public class EditArticleStatusBindingModel {
     @NotNull(message = "Status is missing.")
     private Status status;
 
-    @NotNull(message = "Date is missing.")
     @IsDateAfterTomorrow
     private Date expireDate;
 

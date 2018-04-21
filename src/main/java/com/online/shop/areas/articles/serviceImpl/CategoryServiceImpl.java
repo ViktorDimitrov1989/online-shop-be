@@ -57,7 +57,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto createCategory(CreateCategoryBindingModel createCategoryBindingModel) {
 
-        if(this.categoryRepository.findOneByName(createCategoryBindingModel.getName()) != null){
+        if(this.categoryRepository.findOneByNameAndGenderAndSeason(createCategoryBindingModel.getName(),
+                Gender.valueOf(createCategoryBindingModel.getGender()),
+                        Season.valueOf(createCategoryBindingModel.getSeason())) != null){
             throw  new RequestException(ResponseMessageConstants.EXISTING_CATEGORY, HttpStatus.CONFLICT);
         }
 

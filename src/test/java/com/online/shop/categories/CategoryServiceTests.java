@@ -87,7 +87,11 @@ public class CategoryServiceTests {
         doReturn(new HashSet<>(this.testCategoryCollection)).when(this.categoryRepository).findAllByIdIn(new ArrayList<>(){{add(testRawCategory.getId());}});
         doReturn(this.testCategoryCollection).when(this.categoryRepository).findAll();
         //doReturn(this.testRawCategory).when(this.categoryRepository).save(this.testRawCategory);
-        doReturn(this.testRawCategory).when(this.categoryRepository).findOneByName(this.testRawCategory.getName());
+        doReturn(this.testRawCategory).when(this.categoryRepository)
+                .findOneByNameAndGenderAndSeason(
+                        this.testRawCategory.getName(),
+                        this.testRawCategory.getGender(),
+                        this.testRawCategory.getSeason());
 
         //doReturn(this.testRawCategory).when(this.modelMapper).map(this.testCreateCategory, Category.class);
         //doReturn(this.testCreatedCategoryResponse).when(this.modelMapper).map(this.testRawCategory, CategoryResponseDto.class);

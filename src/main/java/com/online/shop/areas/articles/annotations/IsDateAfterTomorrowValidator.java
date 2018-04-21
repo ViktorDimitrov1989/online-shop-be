@@ -16,6 +16,10 @@ public class IsDateAfterTomorrowValidator implements ConstraintValidator<IsDateA
         Date today = new Date();
         Date chosenDate = (Date) date;
 
+        if(chosenDate == null){
+            return true;
+        }
+
         Calendar cal1 = Calendar.getInstance();
         Calendar cal2 = Calendar.getInstance();
         cal1.setTime(today);
@@ -24,7 +28,6 @@ public class IsDateAfterTomorrowValidator implements ConstraintValidator<IsDateA
                 cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
 
         if(sameDay){
-            chosenDate = null;
             return true;
         }
 
